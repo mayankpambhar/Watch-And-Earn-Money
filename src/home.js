@@ -1,4 +1,4 @@
-import {View, Text, StatusBar, SafeAreaView, Image} from 'react-native';
+import {View, Text, SafeAreaView, Image} from 'react-native';
 import React from 'react';
 import {useHomeStyle} from './homeStyle';
 
@@ -7,7 +7,6 @@ const HomePage = () => {
 
   return (
     <SafeAreaView style={styles.mainView}>
-      <StatusBar backgroundColor={'#32CCC3'} />
       <View style={styles.coinComponent}>
         <Image
           style={styles.settingImage}
