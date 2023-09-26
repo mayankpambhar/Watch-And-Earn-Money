@@ -8,18 +8,19 @@ export const useHomeStyle = () => {
   const style = useMemo(() => {
     return StyleSheet.create({
       mainView: {
-        flex: 1,
+        height: '100%',
+        width: '100%',
       },
       coinComponent: {
         justifyContent: 'center',
         alignItems: 'center',
-        height: 200,
-        width: '100%',
+        height: hp(261),
         backgroundColor: 'yellow',
-        // paddingBottom: hp(20),
+        borderBottomLeftRadius: wp(50),
+        borderBottomRightRadius: wp(50),
       },
       boxView: {
-        height: hp(170),
+        height: hp(150),
         width: wp(170),
         justifyContent: 'center',
         alignItems: 'center',
@@ -27,9 +28,31 @@ export const useHomeStyle = () => {
         backgroundColor: 'red',
       },
       boxRow: {
-        flex: 1,
         flexDirection: 'row',
         justifyContent: 'space-evenly',
+        paddingTop: hp(30),
+      },
+      boxText: {
+        fontSize: 18,
+        fontWeight: 'bold',
+        marginTop: hp(2),
+        color: 'white',
+        fontFamily: 'InknutAntiqua-Bold',
+      },
+      myCoin: {
+        fontSize: 30,
+        fontFamily: 'InknutAntiqua-Bold',
+      },
+      coin: {
+        fontFamily: 'InknutAntiqua-Bold',
+        fontSize: 25,
+      },
+      mainBoxView: {
+        flex: 1,
+      },
+      boxImage: {
+        height: hp(7),
+        width: wp(20),
       },
     });
   }, [hp, wp]);
