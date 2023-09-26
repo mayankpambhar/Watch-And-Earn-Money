@@ -16,20 +16,35 @@ const HomePage = () => {
           <View style={styles.boxView}>
             <Image
               style={styles.boxImage}
-              source={{uri: 'https://reactnative.dev/img/tiny_logo.png'}}
+              source={require('./assets/Images/ic_bonus.png')}
               resizeMode="contain"
             />
             <Text style={styles.boxText}>Daily Check</Text>
           </View>
           <View style={styles.boxView}>
+            <Image
+              style={styles.boxImage}
+              source={require('./assets/Images/ic_spin_wheel.png')}
+              resizeMode="contain"
+            />
             <Text style={styles.boxText}>Daily Check</Text>
           </View>
         </View>
         <View style={styles.boxRow}>
           <View style={styles.boxView}>
+            <Image
+              style={styles.boxImage}
+              source={require('./assets/Images/ic_watchearn.png')}
+              resizeMode="contain"
+            />
             <Text style={styles.boxText}>Daily Check</Text>
           </View>
           <View style={styles.boxView}>
+            <Image
+              style={styles.boxImage}
+              source={require('./assets/Images/ic_wallet.png')}
+              resizeMode="contain"
+            />
             <Text style={styles.boxText}>Daily Check</Text>
           </View>
         </View>

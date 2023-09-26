@@ -35,7 +35,7 @@ export const useHomeStyle = () => {
       boxText: {
         fontSize: 18,
         fontWeight: 'bold',
-        marginTop: hp(2),
+        marginTop: hp(10),
         color: 'white',
         fontFamily: 'InknutAntiqua-Bold',
       },
@@ -51,8 +51,8 @@ export const useHomeStyle = () => {
         flex: 1,
       },
       boxImage: {
-        height: hp(7),
-        width: wp(20),
+        height: hp(45),
+        width: wp(45),
       },
     });
   }, [hp, wp]);
