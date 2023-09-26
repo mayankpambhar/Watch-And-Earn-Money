@@ -12,12 +12,11 @@ export const useHomeStyle = () => {
         width: '100%',
       },
       coinComponent: {
-        justifyContent: 'center',
         alignItems: 'center',
         height: hp(261),
-        backgroundColor: 'yellow',
-        borderBottomLeftRadius: wp(50),
-        borderBottomRightRadius: wp(50),
+        backgroundColor: '#32CCC3',
+        borderBottomLeftRadius: wp(40),
+        borderBottomRightRadius: wp(40),
       },
       boxView: {
         height: hp(150),
@@ -25,7 +24,7 @@ export const useHomeStyle = () => {
         justifyContent: 'center',
         alignItems: 'center',
         borderRadius: 20,
-        backgroundColor: 'red',
+        backgroundColor: '#32CCC3',
       },
       boxRow: {
         flexDirection: 'row',
@@ -33,19 +32,21 @@ export const useHomeStyle = () => {
         paddingTop: hp(30),
       },
       boxText: {
-        fontSize: 18,
-        fontWeight: 'bold',
-        marginTop: hp(10),
-        color: 'white',
+        fontSize: 14,
+        color: 'black',
         fontFamily: 'InknutAntiqua-Bold',
       },
       myCoin: {
-        fontSize: 30,
+        fontSize: 25,
+        color: 'black',
         fontFamily: 'InknutAntiqua-Bold',
+        marginTop: hp(30),
       },
       coin: {
         fontFamily: 'InknutAntiqua-Bold',
         fontSize: 25,
+        color: 'black',
+        marginTop: hp(-25),
       },
       mainBoxView: {
         flex: 1,
@@ -53,6 +54,23 @@ export const useHomeStyle = () => {
       boxImage: {
         height: hp(45),
         width: wp(45),
+      },
+      settingImage: {
+        height: hp(30),
+        width: wp(30),
+        alignSelf: 'flex-end',
+        marginRight: wp(20),
+        marginTop: hp(10),
+      },
+      rupeeRow: {
+        flexDirection: 'row',
+      },
+      rupee: {
+        fontSize: 25,
+        color: 'black',
+        marginLeft: wp(15),
+        fontWeight: 'bold',
+        marginTop: hp(-5),
       },
     });
   }, [hp, wp]);
