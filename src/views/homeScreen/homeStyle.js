@@ -1,6 +1,6 @@
 import {StyleSheet} from 'react-native';
 import {useMemo} from 'react';
-import {useResponsiveScreen} from './Hooks/useResponsiveScreen';
+import {useResponsiveScreen} from '../../hooks/useResponsiveScreen';
 
 export const useHomeStyle = () => {
   const {hp, wp} = useResponsiveScreen();

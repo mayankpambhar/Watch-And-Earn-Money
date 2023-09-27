@@ -1,5 +1,5 @@
 import React from 'react';
-import HomePage from './src/home';
+import HomePage from './src/views/homeScreen/home';
 import {NavigationContainer} from '@react-navigation/native';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
 
