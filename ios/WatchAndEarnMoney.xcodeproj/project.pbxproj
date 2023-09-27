@@ -14,13 +14,11 @@
 		13B07FC11A68108700A75B9A /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB71A68108700A75B9A /* main.m */; };
 		7699B88040F8A987B510C191 /* libPods-WatchAndEarnMoney-WatchAndEarnMoneyTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 19F6CBCC0A4E27FBF8BF4A61 /* libPods-WatchAndEarnMoney-WatchAndEarnMoneyTests.a */; };
 		81AB9BB82411601600AC10FF /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 81AB9BB72411601600AC10FF /* LaunchScreen.storyboard */; };
-		B1EE0D9926BF40D1B6E570D7 /* InknutAntiqua-SemiBold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 195B6328C35F4577AF006F2F /* InknutAntiqua-SemiBold.ttf */; };
-		F75A2D32F6EB4ABD8075654F /* InknutAntiqua-Black.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 8270F56F3D8F47BDB0F451EA /* InknutAntiqua-Black.ttf */; };
-		3BC7E8A10EE64862B88E6C5A /* InknutAntiqua-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 84A11A80DF3A4BE4A6B3B82C /* InknutAntiqua-Bold.ttf */; };
-		933FF578657D4299AF1436F9 /* InknutAntiqua-ExtraBold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = D4C6AE6845584805B100C9E1 /* InknutAntiqua-ExtraBold.ttf */; };
-		4B0D4B76240C499C84E63D91 /* InknutAntiqua-Light.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 34A37786249F48DE908C948B /* InknutAntiqua-Light.ttf */; };
-		28AEDED5D0C54221B3CD13ED /* InknutAntiqua-Medium.ttf in Resources */ = {isa = PBXBuildFile; fileRef = D7E785618FAE4D0D903C96A9 /* InknutAntiqua-Medium.ttf */; };
-		C5B93BEBE80A45FDABCF3AE4 /* InknutAntiqua-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 769AF2524C8F46AA9E8EBCDF /* InknutAntiqua-Regular.ttf */; };
+		BEC391CE2CE344279C532543 /* BalooBhai2-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 478C5849D7B14ED69906DAFE /* BalooBhai2-Bold.ttf */; };
+		745A1FFD5F494C27A1A1D45F /* BalooBhai2-ExtraBold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 260095A469A64089A193EDB9 /* BalooBhai2-ExtraBold.ttf */; };
+		0C3E33C4B56B41CB889718D6 /* BalooBhai2-Medium.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 5ED31B3B8509433D8839059E /* BalooBhai2-Medium.ttf */; };
+		D6C793A8D1C6474C919C6523 /* BalooBhai2-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = A5B8F545927045C6A99007CB /* BalooBhai2-Regular.ttf */; };
+		4644DF42A0D1405CB2E9C234 /* BalooBhai2-SemiBold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = EA178D2A19F04FD8B7470DCE /* BalooBhai2-SemiBold.ttf */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -51,13 +49,11 @@
 		81AB9BB72411601600AC10FF /* LaunchScreen.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; name = LaunchScreen.storyboard; path = WatchAndEarnMoney/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		89C6BE57DB24E9ADA2F236DE /* Pods-WatchAndEarnMoney-WatchAndEarnMoneyTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-WatchAndEarnMoney-WatchAndEarnMoneyTests.release.xcconfig"; path = "Target Support Files/Pods-WatchAndEarnMoney-WatchAndEarnMoneyTests/Pods-WatchAndEarnMoney-WatchAndEarnMoneyTests.release.xcconfig"; sourceTree = "<group>"; };
 		ED297162215061F000B7C4FE /* JavaScriptCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = JavaScriptCore.framework; path = System/Library/Frameworks/JavaScriptCore.framework; sourceTree = SDKROOT; };
-		195B6328C35F4577AF006F2F /* InknutAntiqua-SemiBold.ttf */ = {isa = PBXFileReference; name = "InknutAntiqua-SemiBold.ttf"; path = "../src/assets/fonts/InknutAntiqua-SemiBold.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
-		8270F56F3D8F47BDB0F451EA /* InknutAntiqua-Black.ttf */ = {isa = PBXFileReference; name = "InknutAntiqua-Black.ttf"; path = "../src/assets/fonts/InknutAntiqua-Black.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
-		84A11A80DF3A4BE4A6B3B82C /* InknutAntiqua-Bold.ttf */ = {isa = PBXFileReference; name = "InknutAntiqua-Bold.ttf"; path = "../src/assets/fonts/InknutAntiqua-Bold.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
-		D4C6AE6845584805B100C9E1 /* InknutAntiqua-ExtraBold.ttf */ = {isa = PBXFileReference; name = "InknutAntiqua-ExtraBold.ttf"; path = "../src/assets/fonts/InknutAntiqua-ExtraBold.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
-		34A37786249F48DE908C948B /* InknutAntiqua-Light.ttf */ = {isa = PBXFileReference; name = "InknutAntiqua-Light.ttf"; path = "../src/assets/fonts/InknutAntiqua-Light.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
-		D7E785618FAE4D0D903C96A9 /* InknutAntiqua-Medium.ttf */ = {isa = PBXFileReference; name = "InknutAntiqua-Medium.ttf"; path = "../src/assets/fonts/InknutAntiqua-Medium.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
-		769AF2524C8F46AA9E8EBCDF /* InknutAntiqua-Regular.ttf */ = {isa = PBXFileReference; name = "InknutAntiqua-Regular.ttf"; path = "../src/assets/fonts/InknutAntiqua-Regular.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		478C5849D7B14ED69906DAFE /* BalooBhai2-Bold.ttf */ = {isa = PBXFileReference; name = "BalooBhai2-Bold.ttf"; path = "../src/assets/fonts/BalooBhai2-Bold.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		260095A469A64089A193EDB9 /* BalooBhai2-ExtraBold.ttf */ = {isa = PBXFileReference; name = "BalooBhai2-ExtraBold.ttf"; path = "../src/assets/fonts/BalooBhai2-ExtraBold.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		5ED31B3B8509433D8839059E /* BalooBhai2-Medium.ttf */ = {isa = PBXFileReference; name = "BalooBhai2-Medium.ttf"; path = "../src/assets/fonts/BalooBhai2-Medium.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		A5B8F545927045C6A99007CB /* BalooBhai2-Regular.ttf */ = {isa = PBXFileReference; name = "BalooBhai2-Regular.ttf"; path = "../src/assets/fonts/BalooBhai2-Regular.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		EA178D2A19F04FD8B7470DCE /* BalooBhai2-SemiBold.ttf */ = {isa = PBXFileReference; name = "BalooBhai2-SemiBold.ttf"; path = "../src/assets/fonts/BalooBhai2-SemiBold.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -166,13 +162,11 @@
 		173E149F0A894C5C9D1FDCEF /* Resources */ = {
 			isa = "PBXGroup";
 			children = (
-				195B6328C35F4577AF006F2F /* InknutAntiqua-SemiBold.ttf */,
-				8270F56F3D8F47BDB0F451EA /* InknutAntiqua-Black.ttf */,
-				84A11A80DF3A4BE4A6B3B82C /* InknutAntiqua-Bold.ttf */,
-				D4C6AE6845584805B100C9E1 /* InknutAntiqua-ExtraBold.ttf */,
-				34A37786249F48DE908C948B /* InknutAntiqua-Light.ttf */,
-				D7E785618FAE4D0D903C96A9 /* InknutAntiqua-Medium.ttf */,
-				769AF2524C8F46AA9E8EBCDF /* InknutAntiqua-Regular.ttf */,
+				478C5849D7B14ED69906DAFE /* BalooBhai2-Bold.ttf */,
+				260095A469A64089A193EDB9 /* BalooBhai2-ExtraBold.ttf */,
+				5ED31B3B8509433D8839059E /* BalooBhai2-Medium.ttf */,
+				A5B8F545927045C6A99007CB /* BalooBhai2-Regular.ttf */,
+				EA178D2A19F04FD8B7470DCE /* BalooBhai2-SemiBold.ttf */,
 			);
 			name = Resources;
 			sourceTree = "<group>";
@@ -274,13 +268,11 @@
 			files = (
 				81AB9BB82411601600AC10FF /* LaunchScreen.storyboard in Resources */,
 				13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */,
-				B1EE0D9926BF40D1B6E570D7 /* InknutAntiqua-SemiBold.ttf in Resources */,
-				F75A2D32F6EB4ABD8075654F /* InknutAntiqua-Black.ttf in Resources */,
-				3BC7E8A10EE64862B88E6C5A /* InknutAntiqua-Bold.ttf in Resources */,
-				933FF578657D4299AF1436F9 /* InknutAntiqua-ExtraBold.ttf in Resources */,
-				4B0D4B76240C499C84E63D91 /* InknutAntiqua-Light.ttf in Resources */,
-				28AEDED5D0C54221B3CD13ED /* InknutAntiqua-Medium.ttf in Resources */,
-				C5B93BEBE80A45FDABCF3AE4 /* InknutAntiqua-Regular.ttf in Resources */,
+				BEC391CE2CE344279C532543 /* BalooBhai2-Bold.ttf in Resources */,
+				745A1FFD5F494C27A1A1D45F /* BalooBhai2-ExtraBold.ttf in Resources */,
+				0C3E33C4B56B41CB889718D6 /* BalooBhai2-Medium.ttf in Resources */,
+				D6C793A8D1C6474C919C6523 /* BalooBhai2-Regular.ttf in Resources */,
+				4644DF42A0D1405CB2E9C234 /* BalooBhai2-SemiBold.ttf in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

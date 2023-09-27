@@ -53,13 +53,11 @@
 	<false/>
 	<key>UIAppFonts</key>
 	<array>
-		<string>InknutAntiqua-SemiBold.ttf</string>
-		<string>InknutAntiqua-Black.ttf</string>
-		<string>InknutAntiqua-Bold.ttf</string>
-		<string>InknutAntiqua-ExtraBold.ttf</string>
-		<string>InknutAntiqua-Light.ttf</string>
-		<string>InknutAntiqua-Medium.ttf</string>
-		<string>InknutAntiqua-Regular.ttf</string>
+		<string>BalooBhai2-Bold.ttf</string>
+		<string>BalooBhai2-ExtraBold.ttf</string>
+		<string>BalooBhai2-Medium.ttf</string>
+		<string>BalooBhai2-Regular.ttf</string>
+		<string>BalooBhai2-SemiBold.ttf</string>
 	</array>
 </dict>
 </plist>

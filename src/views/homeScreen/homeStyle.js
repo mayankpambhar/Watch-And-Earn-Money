@@ -34,19 +34,19 @@ export const useHomeStyle = () => {
       boxText: {
         fontSize: 14,
         color: 'black',
-        fontFamily: 'InknutAntiqua-Bold',
+        fontFamily: 'BalooBhai2-Bold',
       },
       myCoin: {
         fontSize: 25,
         color: 'black',
-        fontFamily: 'InknutAntiqua-Bold',
+        fontFamily: 'BalooBhai2-Bold',
         marginTop: hp(30),
       },
       coin: {
-        fontFamily: 'InknutAntiqua-Bold',
+        fontFamily: 'BalooBhai2-Bold',
         fontSize: 25,
         color: 'black',
-        marginTop: hp(-25),
+        marginTop: hp(-5),
       },
       mainBoxView: {
         flex: 1,
@@ -68,8 +68,8 @@ export const useHomeStyle = () => {
       rupee: {
         fontSize: 25,
         color: 'black',
-        marginLeft: wp(15),
-        fontWeight: 'bold',
+        marginLeft: wp(5),
+        fontFamily: 'BalooBhai2-Bold',
         marginTop: hp(-5),
       },
     });

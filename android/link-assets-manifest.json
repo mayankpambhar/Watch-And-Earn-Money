@@ -2,32 +2,24 @@
   "migIndex": 1,
   "data": [
     {
-      "path": "src/assets/fonts/InknutAntiqua-Black.ttf",
-      "sha1": "d25a2d5733a015353f530187c22170aba3e3ef3a"
+      "path": "src/assets/fonts/BalooBhai2-Bold.ttf",
+      "sha1": "c8553c4cab884a2757b3eff2fab06831140fc7cb"
     },
     {
-      "path": "src/assets/fonts/InknutAntiqua-Bold.ttf",
-      "sha1": "4a27509c19fbd7b8aaf6e4776c51e8905c70908c"
+      "path": "src/assets/fonts/BalooBhai2-ExtraBold.ttf",
+      "sha1": "c33db92e6038bad925d37efe41c3758655147ab0"
     },
     {
-      "path": "src/assets/fonts/InknutAntiqua-ExtraBold.ttf",
-      "sha1": "9b45706af8606d7f8f2a759dab6d31f1fbb2e717"
+      "path": "src/assets/fonts/BalooBhai2-Medium.ttf",
+      "sha1": "4bb326b1972299fdb2733a9d8a2edfe47ba23ee0"
     },
     {
-      "path": "src/assets/fonts/InknutAntiqua-Light.ttf",
-      "sha1": "48191daf8b581531463256c17b16b9eb356d70e6"
+      "path": "src/assets/fonts/BalooBhai2-Regular.ttf",
+      "sha1": "a91fb9ffaf7f630e140c76bf0c651f962ab67d29"
     },
     {
-      "path": "src/assets/fonts/InknutAntiqua-Medium.ttf",
-      "sha1": "19e2b2ca54474cd39f758f3454dc0609b703e41e"
-    },
-    {
-      "path": "src/assets/fonts/InknutAntiqua-Regular.ttf",
-      "sha1": "55cac314b62522af19c4e7ba38186e087635612e"
-    },
-    {
-      "path": "src/assets/fonts/InknutAntiqua-SemiBold.ttf",
-      "sha1": "0b1479636df21b0656df12e2115342a09683b444"
+      "path": "src/assets/fonts/BalooBhai2-SemiBold.ttf",
+      "sha1": "09e8ee681218a35859d64cbeb9d0ca6c7f04ca4e"
     }
   ]
 }
