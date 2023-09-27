@@ -1,5 +1,7 @@
 import React from 'react';
 import HomePage from './src/views/homeScreen/home';
+import GetOneGb from './src/views/GetOneGbScreen/GetOneGb';
+import GetTwoGb from './src/views/GetTwoGbScreen/GetTwoGb';
 import {NavigationContainer} from '@react-navigation/native';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import RedeemPage from './src/views/redeemScreen/redeem';
@@ -13,6 +15,8 @@ const App = () => {
         initialRouteName="Home"
         screenOptions={{headerShown: false, statusBarColor: '#32CCC3'}}>
         <Stack.Screen name="Home" component={HomePage} />
+        <Stack.Screen name="GetOneGb" component={GetOneGb} />
+        <Stack.Screen name="GetTwoGb" component={GetTwoGb} />
         <Stack.Screen name="Redeem" component={RedeemPage} />
       </Stack.Navigator>
     </NavigationContainer>

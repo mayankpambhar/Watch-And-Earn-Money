@@ -1,6 +1,6 @@
 import {StyleSheet} from 'react-native';
 import {useMemo} from 'react';
-import {useResponsiveScreen} from '../../hooks/useResponsiveScreen';
+import {useResponsiveScreen} from '../../Hooks/useResponsiveScreen';
 
 export const useHomeStyle = () => {
   const {hp, wp} = useResponsiveScreen();
@@ -32,7 +32,7 @@ export const useHomeStyle = () => {
         paddingTop: hp(30),
       },
       boxText: {
-        fontSize: 16,
+        fontSize: 17,
         color: 'black',
         fontFamily: 'BalooBhai2-Bold',
       },
@@ -52,8 +52,8 @@ export const useHomeStyle = () => {
         flex: 1,
       },
       boxImage: {
-        height: hp(45),
-        width: wp(45),
+        height: hp(55),
+        width: wp(65),
       },
       settingImage: {
         height: hp(30),

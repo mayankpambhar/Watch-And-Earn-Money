@@ -1,6 +1,6 @@
 import {StyleSheet} from 'react-native';
 import {useMemo} from 'react';
-import {useResponsiveScreen} from '../../hooks/useResponsiveScreen';
+import {useResponsiveScreen} from '../../Hooks/useResponsiveScreen';
 
 export const useRedeemStyle = () => {
   const {hp, wp} = useResponsiveScreen();
@@ -28,14 +28,15 @@ export const useRedeemStyle = () => {
       boxText: {
         fontSize: 16,
         color: 'black',
+        textAlign: 'center',
         fontFamily: 'BalooBhai2-Bold',
       },
       mainBoxView: {
         flex: 1,
       },
       boxImage: {
-        height: hp(45),
-        width: wp(45),
+        height: hp(55),
+        width: wp(65),
       },
     });
   }, [hp, wp]);
