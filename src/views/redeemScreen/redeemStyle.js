@@ -30,35 +30,12 @@ export const useRedeemStyle = () => {
         color: 'black',
         fontFamily: 'BalooBhai2-Bold',
       },
-      coin: {
-        fontFamily: 'BalooBhai2-Bold',
-        fontSize: 25,
-        color: 'black',
-        marginTop: hp(-25),
-      },
       mainBoxView: {
         flex: 1,
       },
       boxImage: {
         height: hp(45),
         width: wp(45),
-      },
-      settingImage: {
-        height: hp(30),
-        width: wp(30),
-        alignSelf: 'flex-end',
-        marginRight: wp(20),
-        marginTop: hp(10),
-      },
-      rupeeRow: {
-        flexDirection: 'row',
-      },
-      rupee: {
-        fontSize: 25,
-        color: 'black',
-        marginLeft: wp(15),
-        fontWeight: 'bold',
-        marginTop: hp(-5),
       },
     });
   }, [hp, wp]);
