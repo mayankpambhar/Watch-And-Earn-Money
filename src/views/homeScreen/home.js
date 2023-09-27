@@ -10,7 +10,7 @@ const HomePage = () => {
       <View style={styles.coinComponent}>
         <Image
           style={styles.settingImage}
-          source={require('./assets/Images/ic_setting.png')}
+          source={require('../../assets/Images/ic_setting.png')}
           resizeMode="contain"
         />
         <Text style={styles.myCoin}>My Coins</Text>
@@ -24,7 +24,7 @@ const HomePage = () => {
           <View style={styles.boxView}>
             <Image
               style={styles.boxImage}
-              source={require('./assets/Images/ic_bonus.png')}
+              source={require('../../assets/Images/ic_bonus.png')}
               resizeMode="contain"
             />
             <Text style={styles.boxText}>Daily Check</Text>
@@ -32,7 +32,7 @@ const HomePage = () => {
           <View style={styles.boxView}>
             <Image
               style={styles.boxImage}
-              source={require('./assets/Images/ic_spin_wheel.png')}
+              source={require('../../assets/Images/ic_spin_wheel.png')}
               resizeMode="contain"
             />
             <Text style={styles.boxText}>Spinner</Text>
@@ -42,7 +42,7 @@ const HomePage = () => {
           <View style={styles.boxView}>
             <Image
               style={styles.boxImage}
-              source={require('./assets/Images/ic_watchearn.png')}
+              source={require('../../assets/Images/ic_watchearn.png')}
               resizeMode="contain"
             />
             <Text style={styles.boxText}>Watch And Earn</Text>
@@ -50,7 +50,7 @@ const HomePage = () => {
           <View style={styles.boxView}>
             <Image
               style={styles.boxImage}
-              source={require('./assets/Images/ic_wallet.png')}
+              source={require('../../assets/Images/ic_wallet.png')}
               resizeMode="contain"
             />
             <Text style={styles.boxText}>Redeem</Text>
