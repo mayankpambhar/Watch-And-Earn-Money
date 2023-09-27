@@ -2,7 +2,7 @@ import {StyleSheet} from 'react-native';
 import {useMemo} from 'react';
 import {useResponsiveScreen} from '../../hooks/useResponsiveScreen';
 
-export const useHomeStyle = () => {
+export const useRedeemStyle = () => {
   const {hp, wp} = useResponsiveScreen();
 
   const style = useMemo(() => {
@@ -11,13 +11,7 @@ export const useHomeStyle = () => {
         height: '100%',
         width: '100%',
       },
-      coinComponent: {
-        alignItems: 'center',
-        height: hp(261),
-        backgroundColor: '#32CCC3',
-        borderBottomLeftRadius: wp(40),
-        borderBottomRightRadius: wp(40),
-      },
+
       boxView: {
         height: hp(150),
         width: wp(170),
@@ -36,17 +30,11 @@ export const useHomeStyle = () => {
         color: 'black',
         fontFamily: 'BalooBhai2-Bold',
       },
-      myCoin: {
-        fontSize: 25,
-        color: 'black',
-        fontFamily: 'BalooBhai2-Bold',
-        marginTop: hp(30),
-      },
       coin: {
         fontFamily: 'BalooBhai2-Bold',
         fontSize: 25,
         color: 'black',
-        marginTop: hp(-5),
+        marginTop: hp(-25),
       },
       mainBoxView: {
         flex: 1,
@@ -68,8 +56,8 @@ export const useHomeStyle = () => {
       rupee: {
         fontSize: 25,
         color: 'black',
-        marginLeft: wp(5),
-        fontFamily: 'BalooBhai2-Bold',
+        marginLeft: wp(15),
+        fontWeight: 'bold',
         marginTop: hp(-5),
       },
     });
