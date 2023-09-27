@@ -21,32 +21,39 @@ const HomePage = ({navigation}) => {
       </View>
       <View style={styles.mainBoxView}>
         <View style={styles.boxRow}>
+          <TouchableOpacity>
+            <View style={styles.boxView}>
+              <Image
+                style={styles.boxImage}
+                source={require('../../assets/Images/ic_bonus.png')}
+                resizeMode="contain"
+              />
+              <Text style={styles.boxText}>Daily Check</Text>
+            </View>
+          </TouchableOpacity>
           <View style={styles.boxView}>
             <Image
               style={styles.boxImage}
-              source={require('../../assets/Images/ic_bonus.png')}
+              source={require('../../assets/Images/ic_scratch.png')}
               resizeMode="contain"
             />
-            <Text style={styles.boxText}>Daily Check</Text>
-          </View>
-          <View style={styles.boxView}>
-            <Image
-              style={styles.boxImage}
-              source={require('../../assets/Images/ic_spin_wheel.png')}
-              resizeMode="contain"
-            />
-            <Text style={styles.boxText}>Spinner</Text>
+            <Text style={styles.boxText}>Scratch</Text>
           </View>
         </View>
         <View style={styles.boxRow}>
-          <View style={styles.boxView}>
-            <Image
-              style={styles.boxImage}
-              source={require('../../assets/Images/ic_watchearn.png')}
-              resizeMode="contain"
-            />
-            <Text style={styles.boxText}>Watch And Earn</Text>
-          </View>
+          <TouchableOpacity
+            onPress={() => {
+              navigation.navigate('watchVideoScreen');
+            }}>
+            <View style={styles.boxView}>
+              <Image
+                style={styles.boxImage}
+                source={require('../../assets/Images/ic_watchearn.png')}
+                resizeMode="contain"
+              />
+              <Text style={styles.boxText}>Watch And Earn</Text>
+            </View>
+          </TouchableOpacity>
           <TouchableOpacity
             onPress={() => {
               navigation.navigate('Redeem');
