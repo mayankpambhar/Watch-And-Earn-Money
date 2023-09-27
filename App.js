@@ -6,6 +6,7 @@ import WatchVideoScreen from './src/views/watchVideoScreen/watchVideoScreen';
 import {NavigationContainer} from '@react-navigation/native';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import RedeemPage from './src/views/redeemScreen/redeem';
+import ScratchPage from './src/views/scratchScreen/scratch';
 
 const Stack = createNativeStackNavigator();
 
@@ -19,6 +20,7 @@ const App = () => {
         <Stack.Screen name="GetOneGb" component={GetOneGb} />
         <Stack.Screen name="GetTwoGb" component={GetTwoGb} />
         <Stack.Screen name="Redeem" component={RedeemPage} />
+        <Stack.Screen name="Scratch" component={ScratchPage} />
         <Stack.Screen name="watchVideoScreen" component={WatchVideoScreen} />
       </Stack.Navigator>
     </NavigationContainer>

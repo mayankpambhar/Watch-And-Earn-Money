@@ -31,14 +31,19 @@ const HomePage = ({navigation}) => {
               <Text style={styles.boxText}>Daily Check</Text>
             </View>
           </TouchableOpacity>
-          <View style={styles.boxView}>
-            <Image
-              style={styles.boxImage}
-              source={require('../../assets/Images/ic_scratch.png')}
-              resizeMode="contain"
-            />
-            <Text style={styles.boxText}>Scratch</Text>
-          </View>
+          <TouchableOpacity
+            onPress={() => {
+              navigation.navigate('Scratch');
+            }}>
+            <View style={styles.boxView}>
+              <Image
+                style={styles.boxImage}
+                source={require('../../assets/Images/ic_scratch.png')}
+                resizeMode="contain"
+              />
+              <Text style={styles.boxText}>Scratch</Text>
+            </View>
+          </TouchableOpacity>
         </View>
         <View style={styles.boxRow}>
           <TouchableOpacity
