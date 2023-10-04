@@ -15,13 +15,22 @@ export const useWatchAndEarnStyle = () => {
         height: '100%',
         marginTop: hp(50),
       },
+      coinView: {
+        alignSelf: 'flex-end',
+        marginEnd: wp(10),
+        marginTop: hp(10),
+        flexDirection: 'row',
+      },
       coinTextView: {
         fontSize: 25,
         fontFamily: 'BalooBhai2-SemiBold',
         color: '#000',
-        alignSelf: 'flex-end',
-        marginEnd: wp(10),
-        marginTop: hp(10),
+      },
+      rupee: {
+        fontSize: 25,
+        fontFamily: 'BalooBhai2-SemiBold',
+        color: '#000',
+        marginStart: 5,
       },
       titleView: {
         fontFamily: 'BalooBhai2-SemiBold',

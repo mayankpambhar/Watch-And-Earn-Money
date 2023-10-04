@@ -1,9 +1,35 @@
 import {View, Text, SafeAreaView, Image, TouchableOpacity} from 'react-native';
-import React from 'react';
+import React, {useEffect, useState} from 'react';
 import {useHomeStyle} from './homeStyle';
+import auth from '@react-native-firebase/auth';
+import database from '@react-native-firebase/database';
+import {BannerAd, BannerAdSize, TestIds} from 'react-native-google-mobile-ads';
+const adUnitId = __DEV__
+  ? TestIds.BANNER
+  : 'ca-app-pub-xxxxxxxxxxxxx/yyyyyyyyyyyyyy';
 
 const HomePage = ({navigation}) => {
   const styles = useHomeStyle();
+
+  const [user, setUser] = useState(null);
+  const [coins, setCoins] = useState(0);
+
+  useEffect(() => {
+    const currentUser = auth().currentUser;
+    if (currentUser) {
+      setUser(currentUser);
+
+      fetchCoinsData(currentUser.uid);
+    }
+  }, []);
+
+  const fetchCoinsData = uid => {
+    const userRef = database().ref(`Users/${uid}/coins`);
+    userRef.on('value', snapshot => {
+      const coinsValue = snapshot.val();
+      setCoins(coinsValue);
+    });
+  };
 
   return (
     <SafeAreaView style={styles.mainView}>
@@ -15,13 +41,13 @@ const HomePage = ({navigation}) => {
         />
         <Text style={styles.myCoin}>My Coins</Text>
         <View style={styles.rupeeRow}>
-          <Text style={styles.coin}>5000</Text>
+          <Text style={styles.coin}>{coins}</Text>
           <Text style={styles.rupee}>₹</Text>
         </View>
       </View>
       <View style={styles.mainBoxView}>
         <View style={styles.boxRow}>
-          <TouchableOpacity>
+          <TouchableOpacity onPress={() => {}}>
             <View style={styles.boxView}>
               <Image
                 style={styles.boxImage}
@@ -73,6 +99,15 @@ const HomePage = ({navigation}) => {
             </View>
           </TouchableOpacity>
         </View>
+      </View>
+      <View style={styles.bannerAds}>
+        <BannerAd
+          unitId={adUnitId}
+          size={BannerAdSize.ANCHORED_ADAPTIVE_BANNER}
+          requestOptions={{
+            requestNonPersonalizedAdsOnly: true,
+          }}
+        />
       </View>
     </SafeAreaView>
   );

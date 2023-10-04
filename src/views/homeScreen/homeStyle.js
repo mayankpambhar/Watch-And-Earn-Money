@@ -36,6 +36,10 @@ export const useHomeStyle = () => {
         color: 'black',
         fontFamily: 'BalooBhai2-Bold',
       },
+      bannerAds: {
+        alignSelf: 'flex-end',
+        justifyContent: 'center',
+      },
       myCoin: {
         fontSize: 25,
         color: 'black',

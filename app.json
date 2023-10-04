@@ -1,4 +1,7 @@
 {
   "name": "WatchAndEarnMoney",
-  "displayName": "WatchAndEarnMoney"
+  "displayName": "WatchAndEarnMoney",
+  "react-native-google-mobile-ads": {
+    "android_app_id": "ca-app-pub-8908598255425255~4062638202"
+  }
 }

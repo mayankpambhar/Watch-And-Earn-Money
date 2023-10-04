@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "41098070268",
+    "project_id": "watch-and-earn-react",
+    "storage_bucket": "watch-and-earn-react.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:41098070268:android:a39d147d30f0bf9ffaef79",
+        "android_client_info": {
+          "package_name": "com.watchandearnmoney"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBQu1CdKZoXIxl7PcjIAr1jVjbCZUBn3tI"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
