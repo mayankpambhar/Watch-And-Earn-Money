@@ -1,33 +1,23 @@
-import {View, Text, TouchableOpacity, AppState} from 'react-native';
+import {View, Text, TouchableOpacity} from 'react-native';
 import React, {useEffect, useState} from 'react';
 import {useWatchAndEarnStyle} from './WatchVideoScreenStle';
 import auth from '@react-native-firebase/auth';
 import database from '@react-native-firebase/database';
-import {
-  InterstitialAd,
-  TestIds,
-  AdEventType,
-} from 'react-native-google-mobile-ads';
-
-const adUnitId = __DEV__
-  ? TestIds.INTERSTITIAL
-  : 'ca-app-pub-xxxxxxxxxxxxx/yyyyyyyyyyyyyy';
-
-const interstitial = InterstitialAd.createForAdRequest(adUnitId, {
-  requestNonPersonalizedAdsOnly: true,
-  keywords: ['fashion', 'clothing'],
-});
+import {RewardedAdEventType} from 'react-native-google-mobile-ads';
+import {RewardedAds} from '../../helpers/ads';
 
 const WatchVideoScreen = () => {
   const styles = useWatchAndEarnStyle();
   const [user, setUser] = useState(null);
-  const [loaded, setLoaded] = useState(false);
   const [coins, setCoins] = useState(0);
   const [disableButton, setDisableButton] = useState(false);
   const [remainingTime, setRemainingTime] = useState(5);
   const [timer, setTimer] = useState(null);
 
   useEffect(() => {
+    RewardedAds.addAdEventListener(RewardedAdEventType.EARNED_REWARD, () => {});
+    RewardedAds.load();
+
     const currentUser = auth().currentUser;
     if (currentUser) {
       setUser(currentUser);
@@ -44,47 +34,25 @@ const WatchVideoScreen = () => {
     });
   };
 
-  useEffect(() => {
-    const unsubscribe = interstitial?.addAdEventListener(
-      AdEventType.LOADED,
-      () => {
-        setLoaded(true);
-      },
-    );
-    interstitial.load();
-
-    return unsubscribe;
-  }, [loaded]);
-
   const showInterstitialAd = async () => {
-    if (loaded && !disableButton) {
+    if (!disableButton) {
       try {
-        await interstitial.show();
-        setLoaded(false);
+        await RewardedAds.show();
         setDisableButton(true);
         startTimer();
       } catch (error) {
         console.error('Error showing interstitial ad:', error);
       }
-    } else {
-      const unsubscribe = interstitial?.addAdEventListener(
-        AdEventType.LOADED,
-        () => {
-          setLoaded(true);
-        },
-      );
-      try {
-        await interstitial.load();
-        setLoaded(false);
-      } catch (error) {
-        console.error('Error showing interstitial ad:', error);
-      }
-      return unsubscribe;
     }
   };
 
   const startTimer = () => {
     const timerInterval = setInterval(() => {
+      RewardedAds.addAdEventListener(
+        RewardedAdEventType.EARNED_REWARD,
+        () => {},
+      );
+      RewardedAds.load();
       setRemainingTime(prevTime => {
         if (prevTime === 0) {
           clearInterval(timerInterval);

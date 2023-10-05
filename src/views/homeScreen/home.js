@@ -3,10 +3,7 @@ import React, {useEffect, useState} from 'react';
 import {useHomeStyle} from './homeStyle';
 import auth from '@react-native-firebase/auth';
 import database from '@react-native-firebase/database';
-import {BannerAd, BannerAdSize, TestIds} from 'react-native-google-mobile-ads';
-const adUnitId = __DEV__
-  ? TestIds.BANNER
-  : 'ca-app-pub-xxxxxxxxxxxxx/yyyyyyyyyyyyyy';
+import {BannerAds} from '../../helpers/ads';
 
 const HomePage = ({navigation}) => {
   const styles = useHomeStyle();
@@ -101,13 +98,7 @@ const HomePage = ({navigation}) => {
         </View>
       </View>
       <View style={styles.bannerAds}>
-        <BannerAd
-          unitId={adUnitId}
-          size={BannerAdSize.ANCHORED_ADAPTIVE_BANNER}
-          requestOptions={{
-            requestNonPersonalizedAdsOnly: true,
-          }}
-        />
+        <BannerAds />
       </View>
     </SafeAreaView>
   );

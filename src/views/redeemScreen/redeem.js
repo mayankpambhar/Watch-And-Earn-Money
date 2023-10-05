@@ -8,7 +8,6 @@ import {
 } from 'react-native';
 import React from 'react';
 import {useRedeemStyle} from './redeemStyle';
-// import {useHomeStyle} from '../homeScreen/homeStyle';
 
 const RedeemPage = ({navigation}) => {
   const styles = useRedeemStyle();
@@ -20,9 +19,9 @@ const RedeemPage = ({navigation}) => {
           <TouchableOpacity
             onPress={() => {
               ToastAndroid.showWithGravity(
-                'Comming Soon', // Your message here
-                ToastAndroid.SHORT, // Toast duration (SHORT or LONG)
-                ToastAndroid.CENTER, // Toast gravity (TOP, BOTTOM, CENTER)
+                'Comming Soon',
+                ToastAndroid.SHORT,
+                ToastAndroid.CENTER,
               );
             }}>
             <View style={styles.boxView}>
@@ -37,9 +36,9 @@ const RedeemPage = ({navigation}) => {
           <TouchableOpacity
             onPress={() => {
               ToastAndroid.showWithGravity(
-                'Comming Soon', // Your message here
-                ToastAndroid.SHORT, // Toast duration (SHORT or LONG)
-                ToastAndroid.CENTER, // Toast gravity (TOP, BOTTOM, CENTER)
+                'Comming Soon',
+                ToastAndroid.SHORT,
+                ToastAndroid.CENTER,
               );
             }}>
             <View style={styles.boxView}>
@@ -55,7 +54,9 @@ const RedeemPage = ({navigation}) => {
         <View style={styles.boxRow}>
           <TouchableOpacity
             onPress={() => {
-              navigation.navigate('GetOneGb');
+              navigation.navigate('GetGb', {
+                data: 1,
+              });
             }}>
             <View style={styles.boxView}>
               <Image
@@ -68,7 +69,9 @@ const RedeemPage = ({navigation}) => {
           </TouchableOpacity>
           <TouchableOpacity
             onPress={() => {
-              navigation.navigate('GetTwoGb');
+              navigation.navigate('GetGb', {
+                data: 2,
+              });
             }}>
             <View style={styles.boxView}>
               <Image

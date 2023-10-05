@@ -10,6 +10,7 @@ export const useHomeStyle = () => {
       mainView: {
         height: '100%',
         width: '100%',
+        backgroundColor: '#F7F7f4',
       },
       coinComponent: {
         alignItems: 'center',
