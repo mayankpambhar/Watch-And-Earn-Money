@@ -3,7 +3,8 @@ import React, {useEffect, useState} from 'react';
 import {useHomeStyle} from './homeStyle';
 import auth from '@react-native-firebase/auth';
 import database from '@react-native-firebase/database';
-import {BannerAds} from '../../helpers/ads';
+import {BannerAds, RewardedAds} from '../../helpers/ads';
+import {RewardedAdEventType} from 'react-native-google-mobile-ads';
 
 const HomePage = ({navigation}) => {
   const styles = useHomeStyle();
@@ -12,6 +13,9 @@ const HomePage = ({navigation}) => {
   const [coins, setCoins] = useState(0);
 
   useEffect(() => {
+    RewardedAds.addAdEventListener(RewardedAdEventType.EARNED_REWARD, () => {});
+    RewardedAds.load();
+
     const currentUser = auth().currentUser;
     if (currentUser) {
       setUser(currentUser);
@@ -24,6 +28,7 @@ const HomePage = ({navigation}) => {
     const userRef = database().ref(`Users/${uid}/coins`);
     userRef.on('value', snapshot => {
       const coinsValue = snapshot.val();
+      console.log('coinccccccccccsValue: ', coinsValue);
       setCoins(coinsValue);
     });
   };
@@ -44,7 +49,12 @@ const HomePage = ({navigation}) => {
       </View>
       <View style={styles.mainBoxView}>
         <View style={styles.boxRow}>
-          <TouchableOpacity onPress={() => {}}>
+          <TouchableOpacity
+            onPress={() => {
+              try {
+                RewardedAds.show();
+              } catch (error) {}
+            }}>
             <View style={styles.boxView}>
               <Image
                 style={styles.boxImage}

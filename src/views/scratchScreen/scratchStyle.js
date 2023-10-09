@@ -11,14 +11,16 @@ export const useScratchStyle = () => {
         height: '100%',
         width: '100%',
         alignItems: 'center',
-        justifyContent: 'center',
         borderRadius: 16,
         alignSelf: 'center',
       },
+      cardView: {
+        top: hp(210),
+      },
       background_view: {
-        position: 'absolute',
         width: wp(320),
         height: hp(315),
+        position: 'absolute',
         alignSelf: 'center',
         borderRadius: 16,
         justifyContent: 'center',
@@ -27,7 +29,7 @@ export const useScratchStyle = () => {
       scratch_card: {
         alignSelf: 'center',
         width: wp(320),
-        height: hp(350),
+        height: hp(317),
         backgroundColor: 'transparent',
         borderRadius: 16,
       },
@@ -42,6 +44,25 @@ export const useScratchStyle = () => {
       lottieAnimation: {
         width: wp(320),
         height: hp(320),
+      },
+      rupeeRow: {
+        marginTop: hp(25),
+        alignSelf: 'flex-end',
+        marginRight: wp(30),
+        flexDirection: 'row',
+      },
+      coin: {
+        fontFamily: 'BalooBhai2-Bold',
+        fontSize: 25,
+        color: 'black',
+        marginTop: hp(-5),
+      },
+      rupee: {
+        fontSize: 25,
+        color: 'black',
+        marginLeft: wp(5),
+        fontFamily: 'BalooBhai2-Bold',
+        marginTop: hp(-5),
       },
     });
   }, [hp, wp]);

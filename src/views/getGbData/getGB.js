@@ -16,6 +16,13 @@ import {cardDetails} from '../../constants/cardConstant';
 import {stateDetails} from '../../constants/stateConstant';
 import {replaceSpecialAndAlphabet} from '../../helpers/stringUtils';
 import {useNavigation, useRoute} from '@react-navigation/native';
+import auth from '@react-native-firebase/auth';
+import database from '@react-native-firebase/database';
+import {RewardedAds} from '../../helpers/ads';
+import {RewardedAdEventType} from 'react-native-google-mobile-ads';
+
+const user = auth().currentUser;
+const uid = user?.uid;
 
 const GetGb = () => {
   const {
@@ -31,6 +38,28 @@ const GetGb = () => {
   const [stateError, setStateError] = useState('');
   const [cardError, setCardError] = useState('');
   const styles = useGetGbStyle();
+  const [user, setUser] = useState(null);
+  const [coins, setCoins] = useState(0);
+
+  useEffect(() => {
+    RewardedAds.addAdEventListener(RewardedAdEventType.EARNED_REWARD, () => {});
+    RewardedAds.load();
+
+    const currentUser = auth().currentUser;
+    if (currentUser) {
+      setUser(currentUser);
+
+      fetchCoinsData(currentUser.uid);
+    }
+  }, []);
+
+  const fetchCoinsData = uid => {
+    const userRef = database().ref(`Users/${uid}/coins`);
+    userRef.on('value', snapshot => {
+      const coinsValue = snapshot.val();
+      setCoins(coinsValue);
+    });
+  };
 
   useEffect(() => {
     cardValue && setCardError('');
@@ -51,7 +80,32 @@ const GetGb = () => {
       setCardError('Enter card detail');
     }
     if (stateValue.length && cardValue.length && number.length === 10) {
-      navigation.navigate('Home');
+      RewardedAds.show()
+        .then(() => {
+          const getUser = auth().currentUser;
+          const userid = getUser?.uid;
+
+          const redeemData = {
+            state: stateValue,
+            cardType: cardValue,
+            phoneNumber: number,
+            dataGb: data + ' GB',
+          };
+
+          const redeemRef = database().ref(`redeem/${userid}`);
+          const userRef = database().ref(`Users/${uid}/coins`);
+
+          const coinsValue = data === 1 ? coins - 350 : coins - 500;
+          userRef.set(coinsValue);
+
+          return redeemRef.push(redeemData);
+        })
+        .then(() => {
+          navigation.navigate('Home');
+        })
+        .catch(error => {
+          console.error('Error showing rewarded ad:', error);
+        });
     }
   };
 
@@ -67,7 +121,7 @@ const GetGb = () => {
         }}>
         <View style={styles.mainView}>
           <View style={styles.rupeeRow}>
-            <Text style={styles.coin}>5000</Text>
+            <Text style={styles.coin}>{coins}</Text>
             <Text style={styles.rupee}>₹</Text>
           </View>
           <View style={styles.boxView}>
@@ -134,20 +188,6 @@ const GetGb = () => {
               style={styles.submit}
               onPress={() => {
                 onSubmitPress();
-                // Keyboard.dismiss();
-                // setOpenCard(false);
-                // setOpenState(false);
-                // console.log('number.length: ', number.length);
-                // if (number.length !== 10) {
-                //   setError('Enter valid number');
-                // }
-                // if (
-                //   stateValue.length &&
-                //   cardValue.length &&
-                //   number.length === 10
-                // ) {
-                //   navigation.navigate('Home');
-                // }
               }}>
               <Text style={styles.submitText}>Submit</Text>
             </TouchableOpacity>

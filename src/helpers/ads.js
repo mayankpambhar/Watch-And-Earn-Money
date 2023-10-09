@@ -10,7 +10,7 @@ import {
 export const BannerAds = () => {
   const adUnitId = __DEV__
     ? TestIds.BANNER
-    : 'ca-app-pub-8908598255425255/4062476503';
+    : 'ca-app-pub-8908598255425255/5732094471';
   return (
     <BannerAd
       unitId={adUnitId}
@@ -34,7 +34,7 @@ export const InterstitialAds = InterstitialAd.createForAdRequest(
 
 const rewardedAdUnitId = __DEV__
   ? TestIds.REWARDED
-  : 'ca-app-pub-xxxxxxxxxxxxx/yyyyyyyyyyyyyy';
+  : 'ca-app-pub-8908598255425255/4062476503';
 
 export const RewardedAds = RewardedAd.createForAdRequest(rewardedAdUnitId, {
   requestNonPersonalizedAdsOnly: true,

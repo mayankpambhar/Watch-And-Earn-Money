@@ -72,14 +72,14 @@ const WatchVideoScreen = () => {
         <Text style={styles.rupee}>₹</Text>
       </View>
 
-      <Text style={styles.titleView}>Watch Ads To Get Coins</Text>
+      <Text style={styles.titleView}>Watch Video To Get Coins</Text>
       <View style={styles.buttonView}>
         <TouchableOpacity
           style={styles.submit}
           onPress={showInterstitialAd}
           disabled={disableButton}>
           <Text style={styles.submitText}>
-            {disableButton ? `Wait ${remainingTime}s` : 'Watch Ads'}
+            {disableButton ? `Wait ${remainingTime}s` : 'Watch Video'}
           </Text>
         </TouchableOpacity>
       </View>

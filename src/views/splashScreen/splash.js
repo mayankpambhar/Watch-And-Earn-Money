@@ -14,7 +14,7 @@ const Splash = () => {
         hasNavigatedRef.current = true;
 
         try {
-          const uid = authenticatedUser.uid;
+          const uid = authenticatedUser?.uid;
           const userRef = database().ref(`Users/${uid}`);
           const snapshot = await userRef.once('value');
 
@@ -37,7 +37,7 @@ const Splash = () => {
       } else if (!authenticatedUser && !hasNavigatedRef.current) {
         try {
           const {user} = await auth().signInAnonymously();
-          const uid = user.uid;
+          const uid = user?.uid;
 
           const userRef = database().ref(`Users/${uid}`);
           const snapshot = await userRef.once('value');

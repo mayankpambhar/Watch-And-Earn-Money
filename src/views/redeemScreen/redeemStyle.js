@@ -24,7 +24,26 @@ export const useRedeemStyle = () => {
       boxRow: {
         flexDirection: 'row',
         justifyContent: 'space-evenly',
-        paddingTop: hp(30),
+        paddingTop: hp(50),
+      },
+      rupeeRow: {
+        marginTop: hp(25),
+        alignSelf: 'flex-end',
+        marginRight: wp(30),
+        flexDirection: 'row',
+      },
+      coin: {
+        fontFamily: 'BalooBhai2-Bold',
+        fontSize: 25,
+        color: 'black',
+        marginTop: hp(-5),
+      },
+      rupee: {
+        fontSize: 25,
+        color: 'black',
+        marginLeft: wp(5),
+        fontFamily: 'BalooBhai2-Bold',
+        marginTop: hp(-5),
       },
       boxText: {
         fontSize: 16,
