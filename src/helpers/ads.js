@@ -1,4 +1,4 @@
-import React, {useState, useEffect} from 'react';
+import React from 'react';
 import {
   BannerAd,
   BannerAdSize,
@@ -15,7 +15,6 @@ const userId = currentUser?.uid;
 const rewardAdsRef = database().ref('Ads/Reward');
 
 export const BannerAds = ({bannerId}) => {
-  console.log('bannerccccccccccccccId: ', bannerId);
   return bannerId ? (
     <BannerAd
       unitId={bannerId}
