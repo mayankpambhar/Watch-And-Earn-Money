@@ -3,10 +3,15 @@ import {View, Text} from 'react-native';
 import auth from '@react-native-firebase/auth';
 import database from '@react-native-firebase/database';
 import {useNavigation} from '@react-navigation/native';
+import moment from 'moment';
+import {useSplashStyle} from './splashStyle';
 
 const Splash = () => {
   const navigation = useNavigation();
   const hasNavigatedRef = useRef(false);
+  const styles = useSplashStyle();
+
+  const defaultDate = date => (date ? moment(date).format('DD/MM/YY') : date);
 
   useEffect(() => {
     const unsubscribe = auth().onAuthStateChanged(async authenticatedUser => {
@@ -17,15 +22,30 @@ const Splash = () => {
           const uid = authenticatedUser?.uid;
           const userRef = database().ref(`Users/${uid}`);
           const snapshot = await userRef.once('value');
-
           if (!snapshot.exists()) {
             const userData = {
+              currentDate: defaultDate(Date.now()),
               coins: 10,
               scratch: 0,
               watchAds: 0,
+              dailyCheck: false,
               uid: uid,
             };
-            await userRef.set(userData);
+            userRef.set(userData);
+          } else {
+            const currentDateRef = database().ref(`Users/${uid}/currentDate`);
+            currentDateRef.on('value', snapshots => {
+              const dateValue = snapshots.val();
+              if (dateValue !== defaultDate(Date.now())) {
+                const scratchRef = database().ref(`Users/${uid}/scratch`);
+                const dailyCheckRef = database().ref(`Users/${uid}/dailyCheck`);
+                const watchAdsRef = database().ref(`Users/${uid}/watchAds`);
+                currentDateRef.set(defaultDate(Date.now()));
+                scratchRef.set(0);
+                watchAdsRef.set(0);
+                dailyCheckRef.set(false);
+              }
+            });
           }
 
           setTimeout(() => {
@@ -43,12 +63,28 @@ const Splash = () => {
           const snapshot = await userRef.once('value');
           if (!snapshot.exists()) {
             const userData = {
+              currentDate: defaultDate(Date.now()),
               coins: 10,
               scratch: 0,
               watchAds: 0,
+              dailyCheck: false,
               uid: uid,
             };
-            await userRef.set(userData);
+            userRef.set(userData);
+          } else {
+            const currentDateRef = database().ref(`Users/${uid}/currentDate`);
+            currentDateRef.on('value', snapshots => {
+              const dateValue = snapshots.val();
+              if (dateValue !== defaultDate(Date.now())) {
+                const scratchRef = database().ref(`Users/${uid}/scratch`);
+                const dailyCheckRef = database().ref(`Users/${uid}/dailyCheck`);
+                const watchAdsRef = database().ref(`Users/${uid}/watchAds`);
+                currentDateRef.set(defaultDate(Date.now()));
+                scratchRef.set(0);
+                watchAdsRef.set(0);
+                dailyCheckRef.set(false);
+              }
+            });
           }
 
           hasNavigatedRef.current = true;
@@ -69,7 +105,7 @@ const Splash = () => {
   }, [navigation]);
 
   return (
-    <View style={{flex: 1, justifyContent: 'center', alignItems: 'center'}}>
+    <View style={styles.mainView}>
       <Text>Loading...</Text>
     </View>
   );

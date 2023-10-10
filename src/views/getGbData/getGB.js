@@ -53,8 +53,8 @@ const GetGb = () => {
     }
   }, []);
 
-  const fetchCoinsData = uid => {
-    const userRef = database().ref(`Users/${uid}/coins`);
+  const fetchCoinsData = userId => {
+    const userRef = database().ref(`Users/${userId}/coins`);
     userRef.on('value', snapshot => {
       const coinsValue = snapshot.val();
       setCoins(coinsValue);
@@ -82,9 +82,6 @@ const GetGb = () => {
     if (stateValue.length && cardValue.length && number.length === 10) {
       RewardedAds.show()
         .then(() => {
-          const getUser = auth().currentUser;
-          const userid = getUser?.uid;
-
           const redeemData = {
             state: stateValue,
             cardType: cardValue,
@@ -92,13 +89,13 @@ const GetGb = () => {
             dataGb: data + ' GB',
           };
 
-          const redeemRef = database().ref(`redeem/${userid}`);
+          const redeemRef = database().ref(`redeem/${uid}`);
           const userRef = database().ref(`Users/${uid}/coins`);
 
           const coinsValue = data === 1 ? coins - 350 : coins - 500;
           userRef.set(coinsValue);
 
-          return redeemRef.push(redeemData);
+          redeemRef.push(redeemData);
         })
         .then(() => {
           navigation.navigate('Home');

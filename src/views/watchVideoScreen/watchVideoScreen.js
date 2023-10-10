@@ -5,29 +5,44 @@ import auth from '@react-native-firebase/auth';
 import database from '@react-native-firebase/database';
 import {RewardedAdEventType} from 'react-native-google-mobile-ads';
 import {RewardedAds} from '../../helpers/ads';
+import {Toster} from '../../components/toster/toster';
 
 const WatchVideoScreen = () => {
   const styles = useWatchAndEarnStyle();
   const [user, setUser] = useState(null);
   const [coins, setCoins] = useState(0);
+  const [watchAds, setWatchAds] = useState(0);
   const [disableButton, setDisableButton] = useState(false);
   const [remainingTime, setRemainingTime] = useState(5);
   const [timer, setTimer] = useState(null);
 
+  const currentUser = auth().currentUser;
+  const uid = currentUser?.uid;
+  const watchVideoRef = database().ref(`Users/${uid}/watchAds`);
+  const coinsRef = database().ref(`Users/${uid}/coins`);
+
+  useEffect(() => {
+    watchVideoRef.on('value', snapshot => {
+      const dateValue = snapshot.val();
+      setWatchAds(dateValue);
+    });
+  }, [watchVideoRef, watchAds]);
+
   useEffect(() => {
     RewardedAds.addAdEventListener(RewardedAdEventType.EARNED_REWARD, () => {});
     RewardedAds.load();
+  }, []);
 
-    const currentUser = auth().currentUser;
+  useEffect(() => {
     if (currentUser) {
       setUser(currentUser);
 
-      fetchCoinsData(currentUser.uid);
+      fetchCoinsData(uid);
     }
-  }, []);
+  }, [currentUser, uid]);
 
-  const fetchCoinsData = uid => {
-    const userRef = database().ref(`Users/${uid}/coins`);
+  const fetchCoinsData = userId => {
+    const userRef = database().ref(`Users/${userId}/coins`);
     userRef.on('value', snapshot => {
       const coinsValue = snapshot.val();
       setCoins(coinsValue);
@@ -36,12 +51,21 @@ const WatchVideoScreen = () => {
 
   const showInterstitialAd = async () => {
     if (!disableButton) {
-      try {
-        await RewardedAds.show();
-        setDisableButton(true);
-        startTimer();
-      } catch (error) {
-        console.error('Error showing interstitial ad:', error);
+      if (watchAds < 1) {
+        try {
+          await RewardedAds.show().then(() => {
+            const watchVideoValue = watchAds + 1;
+            watchVideoRef.set(watchVideoValue);
+            const coinValue = coins + 5;
+            coinsRef.set(coinValue);
+          });
+          setDisableButton(true);
+          startTimer();
+        } catch (error) {
+          console.error('Error showing interstitial ad:', error);
+        }
+      } else {
+        Toster('Kal avjo');
       }
     }
   };

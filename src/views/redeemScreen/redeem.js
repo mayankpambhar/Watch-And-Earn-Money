@@ -1,17 +1,11 @@
-import {
-  View,
-  Text,
-  SafeAreaView,
-  Image,
-  TouchableOpacity,
-  ToastAndroid,
-} from 'react-native';
+import {View, Text, SafeAreaView, Image, TouchableOpacity} from 'react-native';
 import React, {useEffect, useState} from 'react';
 import {useRedeemStyle} from './redeemStyle';
 import {RewardedAds} from '../../helpers/ads';
 import auth from '@react-native-firebase/auth';
 import database from '@react-native-firebase/database';
 import {RewardedAdEventType} from 'react-native-google-mobile-ads';
+import {Toster} from '../../components/toster/toster';
 
 const RedeemPage = ({navigation}) => {
   const styles = useRedeemStyle();
@@ -48,11 +42,7 @@ const RedeemPage = ({navigation}) => {
         <View style={styles.boxRow}>
           <TouchableOpacity
             onPress={() => {
-              ToastAndroid.showWithGravity(
-                'Comming Soon',
-                ToastAndroid.SHORT,
-                ToastAndroid.CENTER,
-              );
+              Toster('Comming Soon');
             }}>
             <View style={styles.boxView}>
               <Image
@@ -65,11 +55,7 @@ const RedeemPage = ({navigation}) => {
           </TouchableOpacity>
           <TouchableOpacity
             onPress={() => {
-              ToastAndroid.showWithGravity(
-                'Comming Soon',
-                ToastAndroid.SHORT,
-                ToastAndroid.CENTER,
-              );
+              Toster('Comming Soon');
             }}>
             <View style={styles.boxView}>
               <Image
@@ -85,11 +71,7 @@ const RedeemPage = ({navigation}) => {
           <TouchableOpacity
             onPress={() => {
               if (coins < 350) {
-                ToastAndroid.showWithGravity(
-                  'Need 350 Coins To Redeem',
-                  ToastAndroid.SHORT,
-                  ToastAndroid.CENTER,
-                );
+                Toster('Need 350 Coins To Redeem');
               } else {
                 navigation.navigate('GetGb', {
                   data: 1,
@@ -108,11 +90,7 @@ const RedeemPage = ({navigation}) => {
           <TouchableOpacity
             onPress={() => {
               if (coins < 500) {
-                ToastAndroid.showWithGravity(
-                  'Need 500 Coins To Redeem',
-                  ToastAndroid.SHORT,
-                  ToastAndroid.CENTER,
-                );
+                Toster('Need 500 Coins To Redeem');
               } else {
                 navigation.navigate('GetGb', {
                   data: 2,

@@ -5,24 +5,58 @@ import auth from '@react-native-firebase/auth';
 import database from '@react-native-firebase/database';
 import {BannerAds, RewardedAds} from '../../helpers/ads';
 import {RewardedAdEventType} from 'react-native-google-mobile-ads';
+import {Toster} from '../../components/toster/toster';
 
 const HomePage = ({navigation}) => {
   const styles = useHomeStyle();
 
   const [user, setUser] = useState(null);
   const [coins, setCoins] = useState(0);
+  const [isDailyCheck, setIsDailyCheck] = useState(false);
+  const [bannerAdsId, setBannerAdsId] = useState('');
+  const [isShowAds, setIsShowAds] = useState(false);
+
+  const currentUser = auth().currentUser;
+  const userId = currentUser?.uid;
+
+  const dailyCheckRef = database().ref(`Users/${userId}/dailyCheck`);
+  const coinsRef = database().ref(`Users/${userId}/coins`);
+
+  useEffect(() => {
+    const showAdsRef = database().ref('IsAdsShow');
+    showAdsRef.on('value', snapshot => {
+      const dateValue = snapshot.val();
+      setIsShowAds(dateValue);
+    });
+  }, [isShowAds]);
+
+  useEffect(() => {
+    const bannerAdsRef = database().ref('Ads/Banner');
+    bannerAdsRef.on('value', snapshot => {
+      const dateValue = snapshot.val();
+      setBannerAdsId(dateValue);
+    });
+  }, [bannerAdsId]);
+
+  useEffect(() => {
+    dailyCheckRef.on('value', snapshot => {
+      const dateValue = snapshot.val();
+      setIsDailyCheck(dateValue);
+    });
+  }, [dailyCheckRef]);
 
   useEffect(() => {
     RewardedAds.addAdEventListener(RewardedAdEventType.EARNED_REWARD, () => {});
     RewardedAds.load();
+  }, []);
 
-    const currentUser = auth().currentUser;
+  useEffect(() => {
     if (currentUser) {
       setUser(currentUser);
 
       fetchCoinsData(currentUser.uid);
     }
-  }, []);
+  }, [currentUser]);
 
   const fetchCoinsData = uid => {
     const userRef = database().ref(`Users/${uid}/coins`);
@@ -51,9 +85,19 @@ const HomePage = ({navigation}) => {
         <View style={styles.boxRow}>
           <TouchableOpacity
             onPress={() => {
-              try {
-                RewardedAds.show();
-              } catch (error) {}
+              if (isDailyCheck === false) {
+                try {
+                  RewardedAds.show()
+                    .then(() => {
+                      dailyCheckRef.set(true);
+                      const coinValue = coins + 10;
+                      coinsRef.set(coinValue);
+                    })
+                    .catch(() => {});
+                } catch (error) {}
+              } else {
+                Toster('Already Redeem Daily Reward');
+              }
             }}>
             <View style={styles.boxView}>
               <Image
@@ -107,9 +151,11 @@ const HomePage = ({navigation}) => {
           </TouchableOpacity>
         </View>
       </View>
-      <View style={styles.bannerAds}>
-        <BannerAds />
-      </View>
+      {isShowAds && (
+        <View style={styles.bannerAds}>
+          <BannerAds bannerId={bannerAdsId} />
+        </View>
+      )}
     </SafeAreaView>
   );
 };
