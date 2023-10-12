@@ -9,7 +9,8 @@ import {useNavigation} from '@react-navigation/native';
 import DialogBox from '../../components/dialog/DialogBox';
 import {RewardedAd, RewardedAdEventType} from 'react-native-google-mobile-ads';
 import {Toster} from '../../components/toster/toster';
-// import {RewardAds, RewardedAds} from '../../helpers/ads';
+import InternetDialog from '../../components/internetDialo/InternetDialog';
+import NetInfo from '@react-native-community/netinfo';
 
 const ScratchPage = () => {
   const styles = useScratchStyle();
@@ -26,6 +27,8 @@ const ScratchPage = () => {
   const [isShowAds, setIsShowAds] = useState(false);
   const [rewardads, setrewardads] = useState();
 
+  const [internetModalVisible, setInternetModalVisible] = useState(false);
+
   const currentUser = auth().currentUser;
   const uid = currentUser?.uid;
 
@@ -36,9 +39,31 @@ const ScratchPage = () => {
     rewardAdsRef.on('value', snapshot => {
       const dateValue = snapshot.val();
       setRewardAdsId(dateValue);
-      console.log('id= = = = = = ====>' + dateValue);
     });
   }, [rewardAdsId]);
+
+  const checkInternetConnection = async () => {
+    try {
+      const state = await NetInfo.fetch();
+      if (state.isConnected) {
+        console.log('You are online.');
+        setInternetModalVisible(false);
+      } else {
+        console.log('You are offline.');
+        setInternetModalVisible(true);
+      }
+    } catch (error) {
+      console.error(
+        'An error occurred while checking the internet connection:',
+        error,
+      );
+    }
+  };
+  useEffect(() => {
+    checkInternetConnection();
+    const intervalId = setInterval(checkInternetConnection, 100);
+    return () => clearInterval(intervalId);
+  }, []);
 
   useEffect(() => {
     const RewardedAds = RewardedAd.createForAdRequest(rewardAdsId, {
@@ -107,9 +132,11 @@ const ScratchPage = () => {
     if (isShowAds) {
       if (rewardads.loaded) {
         rewardads.show();
+        setModalVisible(false);
+        navigation.navigate('Home');
+      } else {
+        loadAds();
       }
-      setModalVisible(false);
-      navigation.navigate('Home');
     } else {
       setModalVisible(false);
       navigation.navigate('Home');
@@ -147,32 +174,6 @@ const ScratchPage = () => {
         <Text style={styles.coin}>{coins}</Text>
         <Text style={styles.rupee}>₹</Text>
       </View>
-      {/* <Modal
-        animationType="fade"
-        transparent={true}
-        visible={modalVisible}
-        onRequestClose={() => {
-          setModalVisible(!modalVisible);
-        }}>
-        <View style={styles.centeredView}>
-          <View style={styles.modalView}>
-            <Text style={styles.modalText}>Congratulations !</Text>
-            <Pressable
-              style={styles.button}
-              onPress={() => {
-                setModalVisible(!modalVisible);
-                const userRef = database().ref(`Users/${uid}/coins`);
-
-                const coinsValue = coins + randomNumber;
-                userRef.set(coinsValue);
-                setIsScratch(false);
-                generateRandomNumber();
-              }}>
-              <Text style={styles.textStyle}>Claim</Text>
-            </Pressable>
-          </View>
-        </View>
-      </Modal> */}
       <DialogBox
         modalVisible={clamModalVisible}
         onClose={() => setClamModalVisible(false)}
@@ -199,7 +200,6 @@ const ScratchPage = () => {
           ) : (
             <Pressable
               onPress={() => {
-                // navigation.navigate('Home');
                 setModalVisible(true);
                 // loadAds();
                 // Toster('Reached Daily Limit For Scratch');
@@ -207,7 +207,7 @@ const ScratchPage = () => {
               <DialogBox
                 modalVisible={modalVisible}
                 onClose={() => setModalVisible(false)}
-                msg={'Reached Daily Limit For Scratch'}
+                msg={'Reached Daily Limit\nFor Scratch'}
                 onPress={handleContinue}
               />
 
@@ -226,6 +226,12 @@ const ScratchPage = () => {
           />
         )}
       </View>
+      <InternetDialog
+        modalVisible={internetModalVisible}
+        onClose={() => setInternetModalVisible(false)}
+        msg={'No Internet Connection'}
+        description={'Check your mobile data or \n Wi-Fi or Try again.'}
+      />
     </View>
   );
 

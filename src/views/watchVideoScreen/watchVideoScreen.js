@@ -6,11 +6,16 @@ import database from '@react-native-firebase/database';
 import {Toster} from '../../components/toster/toster';
 import {RewardedAd, RewardedAdEventType} from 'react-native-google-mobile-ads';
 import NetInfo from '@react-native-community/netinfo';
+import InternetDialog from '../../components/internetDialo/InternetDialog';
+import {useNavigation} from '@react-navigation/native';
+import DialogBox from '../../components/dialog/DialogBox';
+import {BannerAds, LargeBannerAds} from '../../helpers/ads';
 
 const WatchVideoScreen = () => {
   const styles = useWatchAndEarnStyle();
   const [user, setUser] = useState(null);
   const [coins, setCoins] = useState(0);
+  const navigation = useNavigation();
   const [watchAds, setWatchAds] = useState(0);
   const [disableButton, setDisableButton] = useState(false);
   const [remainingTime, setRemainingTime] = useState(5);
@@ -18,6 +23,10 @@ const WatchVideoScreen = () => {
   const [rewardAdsId, setRewardAdsId] = useState('');
   const [isShowAds, setIsShowAds] = useState(false);
   const [rewardads, setrewardads] = useState();
+  const [modalVisible, setModalVisible] = useState(false);
+  const [bannerAdsId, setBannerAdsId] = useState('');
+
+  const [internetModalVisible, setInternetModalVisible] = useState(false);
 
   const currentUser = auth().currentUser;
   const uid = currentUser?.uid;
@@ -28,9 +37,9 @@ const WatchVideoScreen = () => {
     try {
       const state = await NetInfo.fetch();
       if (state.isConnected) {
-        console.log('You are online.');
+        setInternetModalVisible(false);
       } else {
-        console.log('You are offline.');
+        setInternetModalVisible(true);
       }
     } catch (error) {
       console.error(
@@ -44,6 +53,11 @@ const WatchVideoScreen = () => {
     const intervalId = setInterval(checkInternetConnection, 100);
     return () => clearInterval(intervalId);
   }, []);
+
+  // useEffect(() => {
+  //   setDisableButton(true);
+  //   startTimer();
+  // }, []);
 
   useEffect(() => {
     const showAdsRef = database().ref('IsAdsShow');
@@ -68,6 +82,14 @@ const WatchVideoScreen = () => {
     console.log('useeffect    ' + RewardedAds.loaded);
   }, [rewardAdsId]);
 
+  useEffect(() => {
+    const bannerAdsRef = database().ref('Ads/Banner');
+    bannerAdsRef.on('value', snapshot => {
+      const dateValue = snapshot.val();
+      setBannerAdsId(dateValue);
+    });
+  }, [bannerAdsId]);
+
   const showAds = () => {
     if (!disableButton) {
       if (watchAds < 10) {
@@ -86,7 +108,7 @@ const WatchVideoScreen = () => {
           console.error('Error showing interstitial ad:', error);
         }
       } else {
-        Toster('Reached Daily Limit For Watch Video');
+        setModalVisible(true);
       }
     }
   };
@@ -116,7 +138,7 @@ const WatchVideoScreen = () => {
             console.error('Error showing interstitial ad:', error);
           }
         } else {
-          Toster('Reached Daily Limit For Watch Video');
+          setModalVisible(true);
         }
       }
     }
@@ -161,6 +183,21 @@ const WatchVideoScreen = () => {
     setTimer(timerInterval);
   };
 
+  const handleContinue = () => {
+    if (isShowAds) {
+      if (rewardads.loaded) {
+        rewardads.show();
+        setModalVisible(false);
+        navigation.navigate('Home');
+      } else {
+        loadAds();
+      }
+    } else {
+      setModalVisible(false);
+      navigation.navigate('Home');
+    }
+  };
+
   return (
     <View style={styles.mainView}>
       <View style={styles.coinView}>
@@ -179,6 +216,31 @@ const WatchVideoScreen = () => {
           </Text>
         </TouchableOpacity>
       </View>
+      <View style={styles.bannerAdsView}>
+        {isShowAds && (
+          <View style={styles.BigbannerAds}>
+            <LargeBannerAds bannerId={bannerAdsId} />
+          </View>
+        )}
+        {isShowAds && (
+          <View style={styles.bannerAds}>
+            <BannerAds bannerId={bannerAdsId} />
+          </View>
+        )}
+      </View>
+
+      <DialogBox
+        modalVisible={modalVisible}
+        onClose={() => setModalVisible(false)}
+        msg={'Reached Daily Limit For\nWatch Video'}
+        onPress={handleContinue}
+      />
+      <InternetDialog
+        modalVisible={internetModalVisible}
+        onClose={() => setInternetModalVisible(false)}
+        msg={'No Internet Connection'}
+        description={'Check your mobile data or \n Wi-Fi or Try again.'}
+      />
     </View>
   );
 };

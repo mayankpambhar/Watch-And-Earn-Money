@@ -6,6 +6,8 @@ import database from '@react-native-firebase/database';
 import {BannerAds, RewardedAds} from '../../helpers/ads';
 import {RewardedAdEventType} from 'react-native-google-mobile-ads';
 import {Toster} from '../../components/toster/toster';
+import NetInfo from '@react-native-community/netinfo';
+import InternetDialog from '../../components/internetDialo/InternetDialog';
 
 const HomePage = ({navigation}) => {
   const styles = useHomeStyle();
@@ -15,12 +17,34 @@ const HomePage = ({navigation}) => {
   const [isDailyCheck, setIsDailyCheck] = useState(false);
   const [bannerAdsId, setBannerAdsId] = useState('');
   const [isShowAds, setIsShowAds] = useState(false);
+  const [internetModalVisible, setInternetModalVisible] = useState(false);
 
   const currentUser = auth().currentUser;
   const userId = currentUser?.uid;
 
   const dailyCheckRef = database().ref(`Users/${userId}/dailyCheck`);
   const coinsRef = database().ref(`Users/${userId}/coins`);
+
+  const checkInternetConnection = async () => {
+    try {
+      const state = await NetInfo.fetch();
+      if (state.isConnected) {
+        setInternetModalVisible(false);
+      } else {
+        setInternetModalVisible(true);
+      }
+    } catch (error) {
+      console.error(
+        'An error occurred while checking the internet connection:',
+        error,
+      );
+    }
+  };
+  useEffect(() => {
+    checkInternetConnection();
+    const intervalId = setInterval(checkInternetConnection, 100);
+    return () => clearInterval(intervalId);
+  }, []);
 
   useEffect(() => {
     const showAdsRef = database().ref('IsAdsShow');
@@ -156,6 +180,12 @@ const HomePage = ({navigation}) => {
           <BannerAds bannerId={bannerAdsId} />
         </View>
       )}
+      <InternetDialog
+        modalVisible={internetModalVisible}
+        onClose={() => setInternetModalVisible(false)}
+        msg={'No Internet Connection'}
+        description={'Check your mobile data or \n Wi-Fi or Try again.'}
+      />
     </SafeAreaView>
   );
 };

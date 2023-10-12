@@ -15,7 +15,11 @@ const App = () => {
     <NavigationContainer>
       <Stack.Navigator
         initialRouteName="Splash"
-        screenOptions={{headerShown: false, statusBarColor: '#32CCC3'}}>
+        screenOptions={{
+          headerShown: false,
+          statusBarColor: '#32CCC3',
+          orientation: 'portrait',
+        }}>
         <Stack.Screen name="Home" component={HomePage} />
         <Stack.Screen name="GetGb" component={GetGb} />
         <Stack.Screen name="Redeem" component={RedeemPage} />

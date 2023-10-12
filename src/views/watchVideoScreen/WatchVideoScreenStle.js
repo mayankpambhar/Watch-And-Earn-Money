@@ -8,11 +8,12 @@ export const useWatchAndEarnStyle = () => {
   const style = useMemo(() => {
     return StyleSheet.create({
       mainView: {
-        height: '100%',
-        width: '100%',
+        // height: '100%',
+        // width: '100%',
+        flex: 1,
       },
       buttonView: {
-        height: '100%',
+        // height: '100%',
         marginTop: hp(50),
       },
       coinView: {
@@ -53,6 +54,21 @@ export const useWatchAndEarnStyle = () => {
         fontSize: 19,
         fontFamily: 'BalooBhai2-SemiBold',
         color: '#000',
+      },
+      bannerAds: {
+        justifyContent: 'center',
+        alignSelf: 'center',
+        marginTop: hp(40),
+      },
+      BigbannerAds: {
+        justifyContent: 'center',
+        alignSelf: 'center',
+        // marginTop: hp(40),
+      },
+      bannerAdsView: {
+        flex: 1,
+        justifyContent: 'flex-end',
+        alignSelf: 'center',
       },
     });
   }, [hp, wp]);

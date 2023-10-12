@@ -6,11 +6,35 @@ import auth from '@react-native-firebase/auth';
 import database from '@react-native-firebase/database';
 import {RewardedAdEventType} from 'react-native-google-mobile-ads';
 import {Toster} from '../../components/toster/toster';
+import NetInfo from '@react-native-community/netinfo';
+import InternetDialog from '../../components/internetDialo/InternetDialog';
 
 const RedeemPage = ({navigation}) => {
   const styles = useRedeemStyle();
   const [user, setUser] = useState(null);
   const [coins, setCoins] = useState(0);
+  const [internetModalVisible, setInternetModalVisible] = useState(false);
+
+  const checkInternetConnection = async () => {
+    try {
+      const state = await NetInfo.fetch();
+      if (state.isConnected) {
+        setInternetModalVisible(false);
+      } else {
+        setInternetModalVisible(true);
+      }
+    } catch (error) {
+      console.error(
+        'An error occurred while checking the internet connection:',
+        error,
+      );
+    }
+  };
+  useEffect(() => {
+    checkInternetConnection();
+    const intervalId = setInterval(checkInternetConnection, 100);
+    return () => clearInterval(intervalId);
+  }, []);
 
   useEffect(() => {
     RewardedAds.addAdEventListener(RewardedAdEventType.EARNED_REWARD, () => {});
@@ -108,6 +132,12 @@ const RedeemPage = ({navigation}) => {
           </TouchableOpacity>
         </View>
       </View>
+      <InternetDialog
+        modalVisible={internetModalVisible}
+        onClose={() => setInternetModalVisible(false)}
+        msg={'No Internet Connection'}
+        description={'Check your mobile data or \n Wi-Fi or Try again.'}
+      />
     </SafeAreaView>
   );
 };

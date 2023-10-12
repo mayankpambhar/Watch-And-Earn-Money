@@ -38,7 +38,7 @@ export const useHomeStyle = () => {
         fontFamily: 'BalooBhai2-Bold',
       },
       bannerAds: {
-        alignSelf: 'flex-end',
+        alignSelf: 'center',
         justifyContent: 'center',
       },
       myCoin: {
