@@ -5,8 +5,7 @@ import auth from '@react-native-firebase/auth';
 import database from '@react-native-firebase/database';
 import {Toster} from '../../components/toster/toster';
 import {RewardedAd, RewardedAdEventType} from 'react-native-google-mobile-ads';
-// import NetInfo from '@react-native-community/netinfo';
-// import {useNetInfo} from '@react-native-community/netinfo';
+import NetInfo from '@react-native-community/netinfo';
 
 const WatchVideoScreen = () => {
   const styles = useWatchAndEarnStyle();
@@ -20,33 +19,31 @@ const WatchVideoScreen = () => {
   const [isShowAds, setIsShowAds] = useState(false);
   const [rewardads, setrewardads] = useState();
 
-  // const netInfo = useNetInfo();
-
   const currentUser = auth().currentUser;
   const uid = currentUser?.uid;
   const watchVideoRef = database().ref(`Users/${uid}/watchAds`);
   const coinsRef = database().ref(`Users/${uid}/coins`);
 
-  // const checkInternetConnection = async () => {
-  //   try {
-  //     const state = await netInfo.fetch();
-  //     if (state.isConnected) {
-  //       console.log('You are online.');
-  //     } else {
-  //       console.log('You are offline.');
-  //     }
-  //   } catch (error) {
-  //     console.error(
-  //       'An error occurred while checking the internet connection:',
-  //       error,
-  //     );
-  //   }
-  // };
-  // useEffect(() => {
-  //   checkInternetConnection();
-  //   const intervalId = setInterval(checkInternetConnection, 100);
-  //   return () => clearInterval(intervalId);
-  // }, []);
+  const checkInternetConnection = async () => {
+    try {
+      const state = await NetInfo.fetch();
+      if (state.isConnected) {
+        console.log('You are online.');
+      } else {
+        console.log('You are offline.');
+      }
+    } catch (error) {
+      console.error(
+        'An error occurred while checking the internet connection:',
+        error,
+      );
+    }
+  };
+  useEffect(() => {
+    checkInternetConnection();
+    const intervalId = setInterval(checkInternetConnection, 100);
+    return () => clearInterval(intervalId);
+  }, []);
 
   useEffect(() => {
     const showAdsRef = database().ref('IsAdsShow');
