@@ -1,4 +1,4 @@
-import React, {useEffect, useRef} from 'react';
+import React, {useEffect, useRef, useState} from 'react';
 import {View, Text} from 'react-native';
 import auth from '@react-native-firebase/auth';
 import database from '@react-native-firebase/database';
@@ -11,8 +11,17 @@ const Splash = () => {
   const navigation = useNavigation();
   const hasNavigatedRef = useRef(false);
   const styles = useSplashStyle();
+  const [isShowAds, setIsShowAds] = useState(false);
 
   const defaultDate = date => (date ? moment(date).format('DD/MM/YY') : date);
+
+  useEffect(() => {
+    const showAdsRef = database().ref('IsAdsShow');
+    showAdsRef.on('value', snapshot => {
+      const dateValue = snapshot.val();
+      setIsShowAds(dateValue);
+    });
+  }, [isShowAds]);
 
   useEffect(() => {
     const appOpenAdsRef = database().ref('Ads/AppOpen');
@@ -22,6 +31,7 @@ const Splash = () => {
         requestNonPersonalizedAdsOnly: true,
       });
       AppOpenAds.load();
+
       const unsubscribe = auth().onAuthStateChanged(async authenticatedUser => {
         if (authenticatedUser && !hasNavigatedRef.current) {
           hasNavigatedRef.current = true;
@@ -59,7 +69,7 @@ const Splash = () => {
             }
 
             setTimeout(() => {
-              snapshotValue
+              snapshotValue && AppOpenAds.loaded && isShowAds
                 ? AppOpenAds.show().then(() => {
                     navigation.replace('Home');
                   })
@@ -105,7 +115,7 @@ const Splash = () => {
 
             hasNavigatedRef.current = true;
             setTimeout(() => {
-              snapshotValue
+              snapshotValue && AppOpenAds.loaded && isShowAds
                 ? AppOpenAds.show().then(() => {
                     navigation.replace('Home');
                   })

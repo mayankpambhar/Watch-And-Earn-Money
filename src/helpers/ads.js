@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useEffect, useRef} from 'react';
 import {
   BannerAd,
   BannerAdSize,
@@ -18,7 +18,7 @@ export const BannerAds = ({bannerId}) => {
   return bannerId ? (
     <BannerAd
       unitId={bannerId}
-      size={BannerAdSize.ANCHORED_ADAPTIVE_BANNER}
+      size={BannerAdSize.LARGE_BANNER}
       requestOptions={{
         requestNonPersonalizedAdsOnly: true,
       }}
@@ -36,6 +36,12 @@ export const BannerAds = ({bannerId}) => {
 //     requestNonPersonalizedAdsOnly: true,
 //   },
 // );
+
+export const RewardAds = id => {
+  return id;
+};
+
+console.log('id====>' + RewardAds);
 
 const rewardedAdUnitId = __DEV__
   ? TestIds.REWARDED
