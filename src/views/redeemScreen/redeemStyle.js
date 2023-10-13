@@ -24,7 +24,7 @@ export const useRedeemStyle = () => {
       boxRow: {
         flexDirection: 'row',
         justifyContent: 'space-evenly',
-        paddingTop: hp(50),
+        paddingTop: hp(20),
       },
       rupeeRow: {
         marginTop: hp(25),
@@ -57,6 +57,22 @@ export const useRedeemStyle = () => {
       boxImage: {
         height: hp(55),
         width: wp(65),
+      },
+      bannerAds: {
+        justifyContent: 'center',
+        alignSelf: 'center',
+        marginTop: hp(20),
+      },
+      bannerAdsView: {
+        // flex: 1,
+        marginVertical: 20,
+        justifyContent: 'flex-end',
+        alignSelf: 'center',
+      },
+      BigbannerAds: {
+        justifyContent: 'center',
+        alignSelf: 'center',
+        // marginTop: hp(40),
       },
     });
   }, [hp, wp]);

@@ -111,13 +111,17 @@ const HomePage = ({navigation}) => {
             onPress={() => {
               if (isDailyCheck === false) {
                 try {
-                  RewardedAds.show()
-                    .then(() => {
-                      dailyCheckRef.set(true);
-                      const coinValue = coins + 10;
-                      coinsRef.set(coinValue);
-                    })
-                    .catch(() => {});
+                  isShowAds
+                    ? RewardedAds.show()
+                        .then(() => {
+                          dailyCheckRef.set(true);
+                          const coinValue = coins + 10;
+                          coinsRef.set(coinValue);
+                        })
+                        .catch(() => {})
+                    : dailyCheckRef.set(true);
+                  const coinValue = coins + 10;
+                  coinsRef.set(coinValue);
                 } catch (error) {}
               } else {
                 Toster('Already Redeem Daily Reward');

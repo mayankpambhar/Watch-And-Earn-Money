@@ -40,6 +40,15 @@ const GetGb = () => {
   const styles = useGetGbStyle();
   const [user, setUser] = useState(null);
   const [coins, setCoins] = useState(0);
+  const [isShowAds, setIsShowAds] = useState(false);
+
+  useEffect(() => {
+    const showAdsRef = database().ref('IsAdsShow');
+    showAdsRef.on('value', snapshot => {
+      const dateValue = snapshot.val();
+      setIsShowAds(dateValue);
+    });
+  }, [isShowAds]);
 
   useEffect(() => {
     RewardedAds.addAdEventListener(RewardedAdEventType.EARNED_REWARD, () => {});
@@ -58,6 +67,24 @@ const GetGb = () => {
     userRef.on('value', snapshot => {
       const coinsValue = snapshot.val();
       setCoins(coinsValue);
+    });
+  };
+  const redeemData = () => {
+    const redeemData = {
+      state: stateValue,
+      cardType: cardValue,
+      phoneNumber: number,
+      dataGb: data + ' GB',
+    };
+
+    const redeemRef = database().ref(`RedeemData/${uid}`);
+    const userRef = database().ref(`Users/${uid}/coins`);
+
+    const coinsValue = data === 1 ? coins - 350 : coins - 500;
+    userRef.set(coinsValue);
+
+    redeemRef.push(redeemData).then(() => {
+      navigation.navigate('Home');
     });
   };
 
@@ -80,29 +107,11 @@ const GetGb = () => {
       setCardError('Enter card detail');
     }
     if (stateValue.length && cardValue.length && number.length === 10) {
-      RewardedAds.show()
-        .then(() => {
-          const redeemData = {
-            state: stateValue,
-            cardType: cardValue,
-            phoneNumber: number,
-            dataGb: data + ' GB',
-          };
-
-          const redeemRef = database().ref(`redeem/${uid}`);
-          const userRef = database().ref(`Users/${uid}/coins`);
-
-          const coinsValue = data === 1 ? coins - 350 : coins - 500;
-          userRef.set(coinsValue);
-
-          redeemRef.push(redeemData);
-        })
-        .then(() => {
-          navigation.navigate('Home');
-        })
-        .catch(error => {
-          console.error('Error showing rewarded ad:', error);
-        });
+      isShowAds
+        ? RewardedAds.show().then(() => {
+            redeemData();
+          })
+        : redeemData();
     }
   };
 
