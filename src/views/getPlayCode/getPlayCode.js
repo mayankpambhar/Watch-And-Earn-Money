@@ -18,8 +18,7 @@ import {replaceSpecialAndAlphabet} from '../../helpers/stringUtils';
 import {useNavigation, useRoute} from '@react-navigation/native';
 import auth from '@react-native-firebase/auth';
 import database from '@react-native-firebase/database';
-import {RewardedAds} from '../../helpers/ads';
-import {RewardedAdEventType} from 'react-native-google-mobile-ads';
+import {RewardedAd, RewardedAdEventType} from 'react-native-google-mobile-ads';
 import {Toster} from '../../components/toster/toster';
 import DialogBox from '../../components/dialog/DialogBox';
 import moment from 'moment';
@@ -44,6 +43,8 @@ const GetPlayCode = () => {
   const [user, setUser] = useState(null);
   const [coins, setCoins] = useState(0);
   const [isShowAds, setIsShowAds] = useState(false);
+  const [rewardAdsId, setRewardAdsId] = useState('');
+  const [rewardads, setrewardads] = useState();
   const [modalVisible, setModalVisible] = useState(false);
 
   const defaultDate = date => (date ? moment(date).format('DD/MM/YY') : date);
@@ -57,9 +58,21 @@ const GetPlayCode = () => {
   }, [isShowAds]);
 
   useEffect(() => {
+    const rewardAdsRef = database().ref('Ads/Reward');
+    rewardAdsRef.on('value', snapshot => {
+      const dateValue = snapshot.val();
+      setRewardAdsId(dateValue);
+    });
+    const RewardedAds = RewardedAd.createForAdRequest(rewardAdsId, {
+      requestNonPersonalizedAdsOnly: true,
+    });
+    setrewardads(RewardedAds);
     RewardedAds.addAdEventListener(RewardedAdEventType.EARNED_REWARD, () => {});
     RewardedAds.load();
+    console.log('useeffect    ' + RewardedAds.loaded);
+  }, [rewardAdsId]);
 
+  useEffect(() => {
     const currentUser = auth().currentUser;
     if (currentUser) {
       setUser(currentUser);
@@ -86,7 +99,7 @@ const GetPlayCode = () => {
     const redeemRef = database().ref(`RedeemPlayCode/${uid}`);
     const userRef = database().ref(`Users/${uid}/coins`);
 
-    const coinsValue = data === 1 ? coins - 350 : coins - 500;
+    const coinsValue = data === 1 ? coins - 150 : coins - 300;
     userRef.set(coinsValue);
 
     redeemRef.push(redeemData).then(() => {
@@ -111,18 +124,21 @@ const GetPlayCode = () => {
       setModalVisible(true);
     }
   };
+
   function isValidEmail(email) {
     const emailPattern = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/;
     return emailPattern.test(email);
   }
+
   const loadAds = () => {
-    RewardedAds.addAdEventListener(RewardedAdEventType.EARNED_REWARD, () => {});
-    RewardedAds.load();
+    rewardads.addAdEventListener(RewardedAdEventType.EARNED_REWARD, () => {});
+    rewardads.load();
   };
+
   const handleContinue = () => {
     if (isShowAds) {
-      if (RewardedAds.loaded) {
-        RewardedAds.show();
+      if (rewardads.loaded) {
+        rewardads.show();
         setModalVisible(false);
         redeemData();
       } else {

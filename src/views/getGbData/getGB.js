@@ -18,8 +18,7 @@ import {replaceSpecialAndAlphabet} from '../../helpers/stringUtils';
 import {useNavigation, useRoute} from '@react-navigation/native';
 import auth from '@react-native-firebase/auth';
 import database from '@react-native-firebase/database';
-import {RewardedAds} from '../../helpers/ads';
-import {RewardedAdEventType} from 'react-native-google-mobile-ads';
+import {RewardedAd, RewardedAdEventType} from 'react-native-google-mobile-ads';
 
 const user = auth().currentUser;
 const uid = user?.uid;
@@ -41,6 +40,8 @@ const GetGb = () => {
   const [user, setUser] = useState(null);
   const [coins, setCoins] = useState(0);
   const [isShowAds, setIsShowAds] = useState(false);
+  const [rewardAdsId, setRewardAdsId] = useState('');
+  const [rewardads, setrewardads] = useState();
 
   useEffect(() => {
     const showAdsRef = database().ref('IsAdsShow');
@@ -51,9 +52,21 @@ const GetGb = () => {
   }, [isShowAds]);
 
   useEffect(() => {
+    const rewardAdsRef = database().ref('Ads/Reward');
+    rewardAdsRef.on('value', snapshot => {
+      const dateValue = snapshot.val();
+      setRewardAdsId(dateValue);
+    });
+    const RewardedAds = RewardedAd.createForAdRequest(rewardAdsId, {
+      requestNonPersonalizedAdsOnly: true,
+    });
+    setrewardads(RewardedAds);
     RewardedAds.addAdEventListener(RewardedAdEventType.EARNED_REWARD, () => {});
     RewardedAds.load();
+    console.log('useeffect    ' + RewardedAds.loaded);
+  }, [rewardAdsId]);
 
+  useEffect(() => {
     const currentUser = auth().currentUser;
     if (currentUser) {
       setUser(currentUser);
@@ -93,6 +106,11 @@ const GetGb = () => {
     stateValue && setStateError('');
   }, [cardValue, stateValue]);
 
+  const loadAds = () => {
+    rewardads.addAdEventListener(RewardedAdEventType.EARNED_REWARD, () => {});
+    rewardads.load();
+  };
+
   const onSubmitPress = () => {
     Keyboard.dismiss();
     setOpenCard(false);
@@ -107,11 +125,15 @@ const GetGb = () => {
       setCardError('Enter card detail');
     }
     if (stateValue.length && cardValue.length && number.length === 10) {
-      isShowAds
-        ? RewardedAds.show().then(() => {
+      if (isShowAds) {
+        if (rewardads.loaded) {
+          rewardads.show().then(() => {
             redeemData();
-          })
-        : redeemData();
+          });
+        } else loadAds();
+      } else {
+        redeemData();
+      }
     }
   };
 

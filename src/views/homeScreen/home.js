@@ -3,8 +3,8 @@ import React, {useEffect, useState} from 'react';
 import {useHomeStyle} from './homeStyle';
 import auth from '@react-native-firebase/auth';
 import database from '@react-native-firebase/database';
-import {BannerAds, RewardedAds} from '../../helpers/ads';
-import {RewardedAdEventType} from 'react-native-google-mobile-ads';
+import {BannerAds} from '../../helpers/ads';
+import {RewardedAd, RewardedAdEventType} from 'react-native-google-mobile-ads';
 import {Toster} from '../../components/toster/toster';
 import NetInfo from '@react-native-community/netinfo';
 import InternetDialog from '../../components/internetDialo/InternetDialog';
@@ -18,6 +18,8 @@ const HomePage = ({navigation}) => {
   const [bannerAdsId, setBannerAdsId] = useState('');
   const [isShowAds, setIsShowAds] = useState(false);
   const [internetModalVisible, setInternetModalVisible] = useState(false);
+  const [rewardAdsId, setRewardAdsId] = useState('');
+  const [rewardads, setrewardads] = useState();
 
   const currentUser = auth().currentUser;
   const userId = currentUser?.uid;
@@ -70,9 +72,19 @@ const HomePage = ({navigation}) => {
   }, [dailyCheckRef]);
 
   useEffect(() => {
+    const rewardAdsRef = database().ref('Ads/Reward');
+    rewardAdsRef.on('value', snapshot => {
+      const dateValue = snapshot.val();
+      setRewardAdsId(dateValue);
+    });
+    const RewardedAds = RewardedAd.createForAdRequest(rewardAdsId, {
+      requestNonPersonalizedAdsOnly: true,
+    });
+    setrewardads(RewardedAds);
     RewardedAds.addAdEventListener(RewardedAdEventType.EARNED_REWARD, () => {});
     RewardedAds.load();
-  }, []);
+    console.log('useeffect    ' + RewardedAds.loaded);
+  }, [rewardAdsId]);
 
   useEffect(() => {
     if (currentUser) {
@@ -111,8 +123,9 @@ const HomePage = ({navigation}) => {
             onPress={() => {
               if (isDailyCheck === false) {
                 try {
-                  isShowAds
-                    ? RewardedAds.show()
+                  isShowAds && rewardads.loaded
+                    ? rewardads
+                        .show()
                         .then(() => {
                           dailyCheckRef.set(true);
                           const coinValue = coins + 10;

@@ -50,17 +50,3 @@ export const LargeBannerAds = ({bannerId}) => {
 //     requestNonPersonalizedAdsOnly: true,
 //   },
 // );
-
-export const RewardAds = id => {
-  return id;
-};
-
-console.log('id====>' + RewardAds);
-
-const rewardedAdUnitId = __DEV__
-  ? TestIds.REWARDED
-  : 'ca-app-pub-8908598255425255/4062476503';
-
-export const RewardedAds = RewardedAd.createForAdRequest(rewardedAdUnitId, {
-  requestNonPersonalizedAdsOnly: true,
-});
