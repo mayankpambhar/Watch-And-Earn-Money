@@ -8,6 +8,7 @@ import ScratchPage from './src/views/scratchScreen/scratch';
 import Splash from './src/views/splashScreen/splash';
 import GetPlayCode from './src/views/getPlayCode/getPlayCode';
 import GetGb from './src/views/getGbData/getGB';
+import PrivacyPolicy from './src/views/privacyPolicy/Policy';
 
 const Stack = createNativeStackNavigator();
 
@@ -28,6 +29,7 @@ const App = () => {
         <Stack.Screen name="Splash" component={Splash} />
         <Stack.Screen name="watchVideoScreen" component={WatchVideoScreen} />
         <Stack.Screen name="GetPlayCode" component={GetPlayCode} />
+        <Stack.Screen name="PrivacyPolicy" component={PrivacyPolicy} />
       </Stack.Navigator>
     </NavigationContainer>
   );

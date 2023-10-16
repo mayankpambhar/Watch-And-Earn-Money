@@ -1,6 +1,5 @@
-import {View, Text, Modal, Pressable, Image} from 'react-native';
-import React, {useState} from 'react';
-import {useNavigation} from '@react-navigation/native';
+import {View, Text, Modal, Image} from 'react-native';
+import React from 'react';
 import {useInternetDialogStyle} from './InternetDialogStyle';
 
 const InternetDialog = ({modalVisible, onClose, msg, description}) => {

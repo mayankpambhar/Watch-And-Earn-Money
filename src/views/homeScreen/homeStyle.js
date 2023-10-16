@@ -45,7 +45,7 @@ export const useHomeStyle = () => {
         fontSize: 25,
         color: 'black',
         fontFamily: 'BalooBhai2-Bold',
-        marginTop: hp(30),
+        marginTop: hp(50),
       },
       coin: {
         fontFamily: 'BalooBhai2-Bold',
@@ -61,11 +61,13 @@ export const useHomeStyle = () => {
         width: wp(65),
       },
       settingImage: {
-        height: hp(30),
-        width: wp(30),
+        height: hp(25),
+        width: wp(25),
+      },
+      settings: {
         alignSelf: 'flex-end',
         marginRight: wp(20),
-        marginTop: hp(10),
+        marginTop: hp(15),
       },
       rupeeRow: {
         flexDirection: 'row',
@@ -76,6 +78,21 @@ export const useHomeStyle = () => {
         marginLeft: wp(5),
         fontFamily: 'BalooBhai2-Bold',
         marginTop: hp(-5),
+      },
+      policyView: {
+        position: 'absolute',
+        height: hp(32),
+        paddingHorizontal: wp(7),
+        backgroundColor: '#fff',
+        right: wp(20),
+        borderRadius: hp(5),
+        justifyContent: 'center',
+        alignItems: 'center',
+      },
+      policy: {
+        fontSize: 15,
+        color: '#000',
+        fontFamily: 'BalooBhai2-SemiBold',
       },
     });
   }, [hp, wp]);

@@ -1,4 +1,11 @@
-import {View, Text, SafeAreaView, Image, TouchableOpacity} from 'react-native';
+import {
+  View,
+  Text,
+  SafeAreaView,
+  Image,
+  TouchableOpacity,
+  TouchableWithoutFeedback,
+} from 'react-native';
 import React, {useEffect, useState} from 'react';
 import {useHomeStyle} from './homeStyle';
 import auth from '@react-native-firebase/auth';
@@ -20,6 +27,7 @@ const HomePage = ({navigation}) => {
   const [internetModalVisible, setInternetModalVisible] = useState(false);
   const [rewardAdsId, setRewardAdsId] = useState('');
   const [rewardads, setrewardads] = useState();
+  const [isOpenMenu, setIsOpenMenu] = useState(false);
 
   const currentUser = auth().currentUser;
   const userId = currentUser?.uid;
@@ -83,7 +91,6 @@ const HomePage = ({navigation}) => {
     setrewardads(RewardedAds);
     RewardedAds.addAdEventListener(RewardedAdEventType.EARNED_REWARD, () => {});
     RewardedAds.load();
-    console.log('useeffect    ' + RewardedAds.loaded);
   }, [rewardAdsId]);
 
   useEffect(() => {
@@ -104,106 +111,131 @@ const HomePage = ({navigation}) => {
   };
 
   return (
-    <SafeAreaView style={styles.mainView}>
-      <View style={styles.coinComponent}>
-        <Image
-          style={styles.settingImage}
-          source={require('../../assets/Images/ic_setting.png')}
-          resizeMode="contain"
+    <TouchableWithoutFeedback
+      onPress={() => {
+        setIsOpenMenu(false);
+      }}>
+      <SafeAreaView style={styles.mainView}>
+        <View style={styles.coinComponent}>
+          <TouchableOpacity
+            style={styles.settings}
+            onPress={() => {
+              setIsOpenMenu(!isOpenMenu);
+            }}>
+            {isOpenMenu && (
+              <TouchableOpacity
+                style={styles.policyView}
+                onPress={() => {
+                  setIsOpenMenu(!isOpenMenu);
+                  navigation.navigate('PrivacyPolicy');
+                }}>
+                <Text style={styles.policy}>Privacy Policy</Text>
+              </TouchableOpacity>
+            )}
+            <Image
+              style={styles.settingImage}
+              source={require('../../assets/Images/ic_menu.png')}
+              resizeMode="cover"
+            />
+          </TouchableOpacity>
+          <Text style={styles.myCoin}>My Coins</Text>
+          <View style={styles.rupeeRow}>
+            <Text style={styles.coin}>{coins}</Text>
+            <Text style={styles.rupee}>₹</Text>
+          </View>
+        </View>
+        <View style={styles.mainBoxView}>
+          <View style={styles.boxRow}>
+            <TouchableOpacity
+              onPress={() => {
+                setIsOpenMenu(false);
+                if (isDailyCheck === false) {
+                  try {
+                    isShowAds && rewardads?.loaded
+                      ? rewardads
+                          .show()
+                          .then(() => {
+                            dailyCheckRef.set(true);
+                            const coinValue = coins + 10;
+                            coinsRef.set(coinValue);
+                          })
+                          .catch(() => {})
+                      : dailyCheckRef.set(true);
+                    const coinValue = coins + 10;
+                    coinsRef.set(coinValue);
+                  } catch (error) {}
+                } else {
+                  Toster('Already Redeem Daily Reward');
+                }
+              }}>
+              <View style={styles.boxView}>
+                <Image
+                  style={styles.boxImage}
+                  source={require('../../assets/Images/ic_bonus.png')}
+                  resizeMode="contain"
+                />
+                <Text style={styles.boxText}>Daily Check</Text>
+              </View>
+            </TouchableOpacity>
+            <TouchableOpacity
+              onPress={() => {
+                setIsOpenMenu(false);
+                navigation.navigate('Scratch');
+              }}>
+              <View style={styles.boxView}>
+                <Image
+                  style={styles.boxImage}
+                  source={require('../../assets/Images/ic_scratch.png')}
+                  resizeMode="contain"
+                />
+                <Text style={styles.boxText}>Scratch</Text>
+              </View>
+            </TouchableOpacity>
+          </View>
+          <View style={styles.boxRow}>
+            <TouchableOpacity
+              onPress={() => {
+                setIsOpenMenu(false);
+                navigation.navigate('watchVideoScreen');
+              }}>
+              <View style={styles.boxView}>
+                <Image
+                  style={styles.boxImage}
+                  source={require('../../assets/Images/ic_watchearn.png')}
+                  resizeMode="contain"
+                />
+                <Text style={styles.boxText}>Watch And Earn</Text>
+              </View>
+            </TouchableOpacity>
+            <TouchableOpacity
+              onPress={() => {
+                setIsOpenMenu(false);
+                navigation.navigate('Redeem');
+              }}>
+              <View style={styles.boxView}>
+                <Image
+                  style={styles.boxImage}
+                  source={require('../../assets/Images/ic_wallet.png')}
+                  resizeMode="contain"
+                />
+                <Text style={styles.boxText}>Redeem</Text>
+              </View>
+            </TouchableOpacity>
+          </View>
+        </View>
+        {isShowAds && (
+          <View style={styles.bannerAds}>
+            <BannerAds bannerId={bannerAdsId} />
+          </View>
+        )}
+        <InternetDialog
+          modalVisible={internetModalVisible}
+          onClose={() => setInternetModalVisible(false)}
+          msg={'No Internet Connection'}
+          description={'Check your mobile data or \n Wi-Fi or Try again.'}
         />
-        <Text style={styles.myCoin}>My Coins</Text>
-        <View style={styles.rupeeRow}>
-          <Text style={styles.coin}>{coins}</Text>
-          <Text style={styles.rupee}>₹</Text>
-        </View>
-      </View>
-      <View style={styles.mainBoxView}>
-        <View style={styles.boxRow}>
-          <TouchableOpacity
-            onPress={() => {
-              if (isDailyCheck === false) {
-                try {
-                  isShowAds && rewardads.loaded
-                    ? rewardads
-                        .show()
-                        .then(() => {
-                          dailyCheckRef.set(true);
-                          const coinValue = coins + 10;
-                          coinsRef.set(coinValue);
-                        })
-                        .catch(() => {})
-                    : dailyCheckRef.set(true);
-                  const coinValue = coins + 10;
-                  coinsRef.set(coinValue);
-                } catch (error) {}
-              } else {
-                Toster('Already Redeem Daily Reward');
-              }
-            }}>
-            <View style={styles.boxView}>
-              <Image
-                style={styles.boxImage}
-                source={require('../../assets/Images/ic_bonus.png')}
-                resizeMode="contain"
-              />
-              <Text style={styles.boxText}>Daily Check</Text>
-            </View>
-          </TouchableOpacity>
-          <TouchableOpacity
-            onPress={() => {
-              navigation.navigate('Scratch');
-            }}>
-            <View style={styles.boxView}>
-              <Image
-                style={styles.boxImage}
-                source={require('../../assets/Images/ic_scratch.png')}
-                resizeMode="contain"
-              />
-              <Text style={styles.boxText}>Scratch</Text>
-            </View>
-          </TouchableOpacity>
-        </View>
-        <View style={styles.boxRow}>
-          <TouchableOpacity
-            onPress={() => {
-              navigation.navigate('watchVideoScreen');
-            }}>
-            <View style={styles.boxView}>
-              <Image
-                style={styles.boxImage}
-                source={require('../../assets/Images/ic_watchearn.png')}
-                resizeMode="contain"
-              />
-              <Text style={styles.boxText}>Watch And Earn</Text>
-            </View>
-          </TouchableOpacity>
-          <TouchableOpacity
-            onPress={() => {
-              navigation.navigate('Redeem');
-            }}>
-            <View style={styles.boxView}>
-              <Image
-                style={styles.boxImage}
-                source={require('../../assets/Images/ic_wallet.png')}
-                resizeMode="contain"
-              />
-              <Text style={styles.boxText}>Redeem</Text>
-            </View>
-          </TouchableOpacity>
-        </View>
-      </View>
-      {isShowAds && (
-        <View style={styles.bannerAds}>
-          <BannerAds bannerId={bannerAdsId} />
-        </View>
-      )}
-      <InternetDialog
-        modalVisible={internetModalVisible}
-        onClose={() => setInternetModalVisible(false)}
-        msg={'No Internet Connection'}
-        description={'Check your mobile data or \n Wi-Fi or Try again.'}
-      />
-    </SafeAreaView>
+      </SafeAreaView>
+    </TouchableWithoutFeedback>
   );
 };
 

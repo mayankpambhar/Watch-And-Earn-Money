@@ -8,14 +8,15 @@ import {
 } from 'react-native';
 import React, {useEffect, useState} from 'react';
 import {useRedeemStyle} from './redeemStyle';
-import {BannerAds, LargeBannerAds, RewardedAds} from '../../helpers/ads';
+import {LargeBannerAds} from '../../helpers/ads';
 import auth from '@react-native-firebase/auth';
 import database from '@react-native-firebase/database';
-import {RewardedAdEventType} from 'react-native-google-mobile-ads';
 import {Toster} from '../../components/toster/toster';
 import NetInfo from '@react-native-community/netinfo';
 import InternetDialog from '../../components/internetDialo/InternetDialog';
 import DialogBox from '../../components/dialog/DialogBox';
+import {RewardedAd, RewardedAdEventType} from 'react-native-google-mobile-ads';
+import LoadingIndecator from '../../components/indecator/indecator';
 
 const RedeemPage = ({navigation}) => {
   const styles = useRedeemStyle();
@@ -28,6 +29,9 @@ const RedeemPage = ({navigation}) => {
   const [modalTwoGBVisible, setModalTwoGBVisible] = useState(false);
   const [modalOneVisible, setModalOneVisible] = useState(false);
   const [modalTwoVisible, setModalTwoVisible] = useState(false);
+  const [rewardAdsId, setRewardAdsId] = useState('');
+  const [rewardads, setrewardads] = useState();
+  const [isLoading, setIsLoading] = useState(false);
 
   useEffect(() => {
     const showAdsRef = database().ref('IsAdsShow');
@@ -36,6 +40,21 @@ const RedeemPage = ({navigation}) => {
       setIsShowAds(dateValue);
     });
   }, [isShowAds]);
+
+  useEffect(() => {
+    const rewardAdsRef = database().ref('Ads/Reward');
+    rewardAdsRef.on('value', snapshot => {
+      const dateValue = snapshot.val();
+      setRewardAdsId(dateValue);
+    });
+    const RewardedAds = RewardedAd.createForAdRequest(rewardAdsId, {
+      requestNonPersonalizedAdsOnly: true,
+    });
+    setrewardads(RewardedAds);
+    RewardedAds.addAdEventListener(RewardedAdEventType.EARNED_REWARD, () => {});
+    RewardedAds.load();
+    console.log('useeffect    ' + RewardedAds.loaded);
+  }, [rewardAdsId]);
 
   useEffect(() => {
     const bannerAdsRef = database().ref('Ads/Banner');
@@ -67,9 +86,6 @@ const RedeemPage = ({navigation}) => {
   }, []);
 
   useEffect(() => {
-    RewardedAds.addAdEventListener(RewardedAdEventType.EARNED_REWARD, () => {});
-    RewardedAds.load();
-
     const currentUser = auth().currentUser;
     if (currentUser) {
       setUser(currentUser);
@@ -128,9 +144,45 @@ const RedeemPage = ({navigation}) => {
                 if (coins < 350) {
                   setModalOneGBVisible(true);
                 } else {
-                  navigation.navigate('GetGb', {
-                    data: 1,
-                  });
+                  if (isShowAds) {
+                    if (rewardads.loaded) {
+                      setIsLoading(false);
+                      rewardads.show().then(() => {
+                        navigation.navigate('GetGb', {
+                          data: 1,
+                        });
+                      });
+                    } else {
+                      setIsLoading(true);
+                      rewardads.addAdEventListener(
+                        RewardedAdEventType.EARNED_REWARD,
+                        () => {},
+                      );
+                      rewardads.load();
+                      setTimeout(() => {
+                        if (rewardads.loaded) {
+                          rewardads.show().then(() => {
+                            setIsLoading(false);
+                            navigation.navigate('GetGb', {
+                              data: 1,
+                            });
+                          });
+                        } else {
+                          setIsLoading(false);
+                          Toster('Please Try Again!');
+                          rewardads.addAdEventListener(
+                            RewardedAdEventType.EARNED_REWARD,
+                            () => {},
+                          );
+                          rewardads.load();
+                        }
+                      }, 2000);
+                    }
+                  } else {
+                    navigation.navigate('GetGb', {
+                      data: 1,
+                    });
+                  }
                 }
               }}>
               <View style={styles.boxView}>
@@ -155,9 +207,45 @@ const RedeemPage = ({navigation}) => {
                 if (coins < 500) {
                   setModalTwoGBVisible(true);
                 } else {
-                  navigation.navigate('GetGb', {
-                    data: 2,
-                  });
+                  if (isShowAds) {
+                    if (rewardads.loaded) {
+                      setIsLoading(false);
+                      rewardads.show().then(() => {
+                        navigation.navigate('GetGb', {
+                          data: 2,
+                        });
+                      });
+                    } else {
+                      setIsLoading(true);
+                      rewardads.addAdEventListener(
+                        RewardedAdEventType.EARNED_REWARD,
+                        () => {},
+                      );
+                      rewardads.load();
+                      setTimeout(() => {
+                        if (rewardads.loaded) {
+                          rewardads.show().then(() => {
+                            navigation.navigate('GetGb', {
+                              data: 2,
+                            });
+                            setIsLoading(false);
+                          });
+                        } else {
+                          setIsLoading(false);
+                          Toster('Please Try Again!');
+                          rewardads.addAdEventListener(
+                            RewardedAdEventType.EARNED_REWARD,
+                            () => {},
+                          );
+                          rewardads.load();
+                        }
+                      }, 2000);
+                    }
+                  } else {
+                    navigation.navigate('GetGb', {
+                      data: 2,
+                    });
+                  }
                 }
               }}>
               <View style={styles.boxView}>
@@ -184,9 +272,45 @@ const RedeemPage = ({navigation}) => {
                 if (coins < 150) {
                   setModalOneVisible(true);
                 } else {
-                  navigation.navigate('GetPlayCode', {
-                    data: 1,
-                  });
+                  if (isShowAds) {
+                    if (rewardads.loaded) {
+                      setIsLoading(false);
+                      rewardads.show().then(() => {
+                        navigation.navigate('GetPlayCode', {
+                          data: 1,
+                        });
+                      });
+                    } else {
+                      setIsLoading(true);
+                      rewardads.addAdEventListener(
+                        RewardedAdEventType.EARNED_REWARD,
+                        () => {},
+                      );
+                      rewardads.load();
+                      setTimeout(() => {
+                        if (rewardads.loaded) {
+                          rewardads.show().then(() => {
+                            setIsLoading(false);
+                            navigation.navigate('GetPlayCode', {
+                              data: 1,
+                            });
+                          });
+                        } else {
+                          setIsLoading(false);
+                          Toster('Please Try Again!');
+                          rewardads.addAdEventListener(
+                            RewardedAdEventType.EARNED_REWARD,
+                            () => {},
+                          );
+                          rewardads.load();
+                        }
+                      }, 2000);
+                    }
+                  } else {
+                    navigation.navigate('GetPlayCode', {
+                      data: 1,
+                    });
+                  }
                 }
               }}>
               <View style={styles.boxView}>
@@ -211,9 +335,45 @@ const RedeemPage = ({navigation}) => {
                 if (coins < 300) {
                   setModalTwoVisible(true);
                 } else {
-                  navigation.navigate('GetPlayCode', {
-                    data: 2,
-                  });
+                  if (isShowAds) {
+                    if (rewardads.loaded) {
+                      setIsLoading(false);
+                      rewardads.show().then(() => {
+                        navigation.navigate('GetPlayCode', {
+                          data: 2,
+                        });
+                      });
+                    } else {
+                      setIsLoading(true);
+                      rewardads.addAdEventListener(
+                        RewardedAdEventType.EARNED_REWARD,
+                        () => {},
+                      );
+                      rewardads.load();
+                      setTimeout(() => {
+                        if (rewardads.loaded) {
+                          rewardads.show().then(() => {
+                            setIsLoading(false);
+                            navigation.navigate('GetPlayCode', {
+                              data: 2,
+                            });
+                          });
+                        } else {
+                          setIsLoading(false);
+                          Toster('Please Try Again!');
+                          rewardads.addAdEventListener(
+                            RewardedAdEventType.EARNED_REWARD,
+                            () => {},
+                          );
+                          rewardads.load();
+                        }
+                      }, 2000);
+                    }
+                  } else {
+                    navigation.navigate('GetPlayCode', {
+                      data: 2,
+                    });
+                  }
                 }
               }}>
               <View style={styles.boxView}>
@@ -240,14 +400,9 @@ const RedeemPage = ({navigation}) => {
                 <LargeBannerAds bannerId={bannerAdsId} />
               </View>
             )}
-            {/* {isShowAds && (
-              <View style={styles.bannerAds}>
-                <BannerAds bannerId={bannerAdsId} />
-              </View>
-            )} */}
           </View>
         </View>
-
+        {isLoading && <LoadingIndecator />}
         <InternetDialog
           modalVisible={internetModalVisible}
           onClose={() => setInternetModalVisible(false)}

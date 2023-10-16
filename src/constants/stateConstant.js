@@ -92,3 +92,10 @@ export const stateDetails = [
     label: 'West Bengal and Andaman Nicobar',
   },
 ];
+
+export const menuDetail = [
+  {
+    value: 'Privacy Policy',
+    label: 'Privacy Policy',
+  },
+];
