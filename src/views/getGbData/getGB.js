@@ -7,6 +7,7 @@ import {
   TouchableWithoutFeedback,
   Keyboard,
   Image,
+  ScrollView,
 } from 'react-native';
 import React, {useState, useEffect} from 'react';
 import {useGetGbStyle} from './getGBStyle';
@@ -19,6 +20,7 @@ import {useNavigation, useRoute} from '@react-navigation/native';
 import auth from '@react-native-firebase/auth';
 import database from '@react-native-firebase/database';
 import {RewardedAd, RewardedAdEventType} from 'react-native-google-mobile-ads';
+import {BannerAds} from '../../helpers/ads';
 
 const user = auth().currentUser;
 const uid = user?.uid;
@@ -37,11 +39,11 @@ const GetGb = () => {
   const [stateError, setStateError] = useState('');
   const [cardError, setCardError] = useState('');
   const styles = useGetGbStyle();
-  const [user, setUser] = useState(null);
   const [coins, setCoins] = useState(0);
   const [isShowAds, setIsShowAds] = useState(false);
   const [rewardAdsId, setRewardAdsId] = useState('');
   const [rewardads, setrewardads] = useState();
+  const [bannerAdsId, setBannerAdsId] = useState('');
 
   useEffect(() => {
     const showAdsRef = database().ref('IsAdsShow');
@@ -50,6 +52,14 @@ const GetGb = () => {
       setIsShowAds(dateValue);
     });
   }, [isShowAds]);
+
+  useEffect(() => {
+    const bannerAdsRef = database().ref('Ads/Banner');
+    bannerAdsRef.on('value', snapshot => {
+      const dateValue = snapshot.val();
+      setBannerAdsId(dateValue);
+    });
+  }, [bannerAdsId]);
 
   useEffect(() => {
     const rewardAdsRef = database().ref('Ads/Reward');
@@ -63,14 +73,11 @@ const GetGb = () => {
     setrewardads(RewardedAds);
     RewardedAds.addAdEventListener(RewardedAdEventType.EARNED_REWARD, () => {});
     RewardedAds.load();
-    console.log('useeffect    ' + RewardedAds.loaded);
   }, [rewardAdsId]);
 
   useEffect(() => {
     const currentUser = auth().currentUser;
     if (currentUser) {
-      setUser(currentUser);
-
       fetchCoinsData(currentUser.uid);
     }
   }, []);
@@ -83,7 +90,7 @@ const GetGb = () => {
     });
   };
   const redeemData = () => {
-    const redeemData = {
+    const redeemValue = {
       state: stateValue,
       cardType: cardValue,
       phoneNumber: number,
@@ -96,7 +103,7 @@ const GetGb = () => {
     const coinsValue = data === 1 ? coins - 350 : coins - 500;
     userRef.set(coinsValue);
 
-    redeemRef.push(redeemData).then(() => {
+    redeemRef.push(redeemValue).then(() => {
       navigation.navigate('Home');
     });
   };
@@ -130,7 +137,9 @@ const GetGb = () => {
           rewardads.show().then(() => {
             redeemData();
           });
-        } else loadAds();
+        } else {
+          loadAds();
+        }
       } else {
         redeemData();
       }
@@ -147,7 +156,7 @@ const GetGb = () => {
           setOpenCard(false);
           setOpenState(false);
         }}>
-        <View style={styles.mainView}>
+        <ScrollView style={styles.mainView}>
           <View style={styles.rupeeRow}>
             <Text style={styles.coin}>{coins}</Text>
             <Text style={styles.rupee}>₹</Text>
@@ -220,7 +229,12 @@ const GetGb = () => {
               <Text style={styles.submitText}>Submit</Text>
             </TouchableOpacity>
           </View>
-        </View>
+          {isShowAds && (
+            <View style={styles.bannerAds}>
+              <BannerAds bannerId={bannerAdsId} />
+            </View>
+          )}
+        </ScrollView>
       </TouchableWithoutFeedback>
     </KeyboardAvoidingView>
   );

@@ -17,7 +17,6 @@ const WatchVideoScreen = () => {
   const [watchAds, setWatchAds] = useState(0);
   const [disableButton, setDisableButton] = useState(false);
   const [remainingTime, setRemainingTime] = useState(5);
-  const [timer, setTimer] = useState(null);
   const [rewardAdsId, setRewardAdsId] = useState('');
   const [isShowAds, setIsShowAds] = useState(false);
   const [rewardads, setrewardads] = useState();
@@ -95,7 +94,9 @@ const WatchVideoScreen = () => {
             });
             setDisableButton(true);
             startTimer();
-          } else loadAds();
+          } else {
+            loadAds();
+          }
         } catch (error) {
           console.error('Error showing interstitial ad:', error);
         }
@@ -168,7 +169,6 @@ const WatchVideoScreen = () => {
         return prevTime - 1;
       });
     }, 1000);
-    setTimer(timerInterval);
   };
 
   const handleContinue = () => {

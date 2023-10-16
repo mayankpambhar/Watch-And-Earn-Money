@@ -29,7 +29,7 @@ export const useGetGbStyle = () => {
         marginTop: hp(40),
       },
       submit: {
-        marginTop: hp(130),
+        marginTop: hp(100),
         alignSelf: 'center',
         alignItems: 'center',
         justifyContent: 'center',
@@ -77,6 +77,11 @@ export const useGetGbStyle = () => {
       boxView: {
         alignItems: 'center',
         marginTop: hp(20),
+      },
+      bannerAds: {
+        marginTop: hp(30),
+        alignSelf: 'center',
+        justifyContent: 'flex-end',
       },
     });
   }, [hp, wp]);

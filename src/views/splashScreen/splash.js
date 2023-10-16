@@ -1,5 +1,5 @@
 import React, {useEffect, useRef, useState} from 'react';
-import {View, Text, Image} from 'react-native';
+import {View, Image} from 'react-native';
 import auth from '@react-native-firebase/auth';
 import database from '@react-native-firebase/database';
 import {useNavigation} from '@react-navigation/native';
@@ -44,8 +44,8 @@ const Splash = () => {
       const adShowValue = snapshot.val();
 
       const appOpenAdsRef = database().ref('Ads/AppOpen');
-      appOpenAdsRef.on('value', snapshot => {
-        const snapshotValue = snapshot.val();
+      appOpenAdsRef.on('value', snapshots => {
+        const snapshotValue = snapshots.val();
         const AppOpenAds = AppOpenAd.createForAdRequest(snapshotValue, {
           requestNonPersonalizedAdsOnly: true,
         });
@@ -74,8 +74,8 @@ const Splash = () => {
                   const currentDateRef = database().ref(
                     `Users/${uid}/currentDate`,
                   );
-                  currentDateRef.on('value', snapshots => {
-                    const dateValue = snapshots.val();
+                  currentDateRef.on('value', snapshort => {
+                    const dateValue = snapshort.val();
                     if (dateValue !== defaultDate(Date.now())) {
                       const scratchRef = database().ref(`Users/${uid}/scratch`);
                       const dailyCheckRef = database().ref(
@@ -123,8 +123,8 @@ const Splash = () => {
                   const currentDateRef = database().ref(
                     `Users/${uid}/currentDate`,
                   );
-                  currentDateRef.on('value', snapshots => {
-                    const dateValue = snapshots.val();
+                  currentDateRef.on('value', snapshorts => {
+                    const dateValue = snapshorts.val();
                     if (dateValue !== defaultDate(Date.now())) {
                       const scratchRef = database().ref(`Users/${uid}/scratch`);
                       const dailyCheckRef = database().ref(

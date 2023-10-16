@@ -7,21 +7,18 @@ import {
   TouchableWithoutFeedback,
   Keyboard,
   Image,
+  ScrollView,
 } from 'react-native';
 import React, {useState, useEffect} from 'react';
 import {useGetPlayCodeStyle} from './getPlayCodeStyle';
 import TextInputField from '../../components/textInput/textInput';
-import DropDown from '../../components/dropDown/DropDown';
-import {cardDetails} from '../../constants/cardConstant';
-import {stateDetails} from '../../constants/stateConstant';
-import {replaceSpecialAndAlphabet} from '../../helpers/stringUtils';
 import {useNavigation, useRoute} from '@react-navigation/native';
 import auth from '@react-native-firebase/auth';
 import database from '@react-native-firebase/database';
 import {RewardedAd, RewardedAdEventType} from 'react-native-google-mobile-ads';
-import {Toster} from '../../components/toster/toster';
 import DialogBox from '../../components/dialog/DialogBox';
 import moment from 'moment';
+import {LargeBannerAds} from '../../helpers/ads';
 
 const user = auth().currentUser;
 const uid = user?.uid;
@@ -31,21 +28,15 @@ const GetPlayCode = () => {
     params: {data},
   } = useRoute();
   const navigation = useNavigation();
-  const [openCard, setOpenCard] = useState(false);
-  const [openState, setOpenState] = useState(false);
-  const [cardValue, setCardValue] = useState('');
-  const [stateValue, setStateValue] = useState('');
   const [email, setNumber] = useState('');
   const [inputError, setInputError] = useState('');
-  const [stateError, setStateError] = useState('');
-  const [cardError, setCardError] = useState('');
   const styles = useGetPlayCodeStyle();
-  const [user, setUser] = useState(null);
   const [coins, setCoins] = useState(0);
   const [isShowAds, setIsShowAds] = useState(false);
   const [rewardAdsId, setRewardAdsId] = useState('');
   const [rewardads, setrewardads] = useState();
   const [modalVisible, setModalVisible] = useState(false);
+  const [bannerAdsId, setBannerAdsId] = useState('');
 
   const defaultDate = date => (date ? moment(date).format('DD/MM/YY') : date);
 
@@ -56,6 +47,14 @@ const GetPlayCode = () => {
       setIsShowAds(dateValue);
     });
   }, [isShowAds]);
+
+  useEffect(() => {
+    const bannerAdsRef = database().ref('Ads/Banner');
+    bannerAdsRef.on('value', snapshot => {
+      const dateValue = snapshot.val();
+      setBannerAdsId(dateValue);
+    });
+  }, [bannerAdsId]);
 
   useEffect(() => {
     const rewardAdsRef = database().ref('Ads/Reward');
@@ -69,14 +68,11 @@ const GetPlayCode = () => {
     setrewardads(RewardedAds);
     RewardedAds.addAdEventListener(RewardedAdEventType.EARNED_REWARD, () => {});
     RewardedAds.load();
-    console.log('useeffect    ' + RewardedAds.loaded);
   }, [rewardAdsId]);
 
   useEffect(() => {
     const currentUser = auth().currentUser;
     if (currentUser) {
-      setUser(currentUser);
-
       fetchCoinsData(currentUser.uid);
     }
   }, []);
@@ -90,7 +86,7 @@ const GetPlayCode = () => {
   };
   const redeemData = () => {
     const amount = data === 1 ? 10 : 25;
-    const redeemData = {
+    const redeemValue = {
       email: email,
       redeemAmount: amount + ' ₹',
       currentDate: defaultDate(Date.now()),
@@ -102,20 +98,13 @@ const GetPlayCode = () => {
     const coinsValue = data === 1 ? coins - 150 : coins - 300;
     userRef.set(coinsValue);
 
-    redeemRef.push(redeemData).then(() => {
+    redeemRef.push(redeemValue).then(() => {
       navigation.navigate('Home');
     });
   };
 
-  useEffect(() => {
-    cardValue && setCardError('');
-    stateValue && setStateError('');
-  }, [cardValue, stateValue]);
-
   const onSubmitPress = () => {
     Keyboard.dismiss();
-    setOpenCard(false);
-    setOpenState(false);
     if (email.length === 0) {
       setInputError('Enter valid email');
     } else if (!isValidEmail(email)) {
@@ -125,9 +114,9 @@ const GetPlayCode = () => {
     }
   };
 
-  function isValidEmail(email) {
+  function isValidEmail(emails) {
     const emailPattern = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/;
-    return emailPattern.test(email);
+    return emailPattern.test(emails);
   }
 
   const loadAds = () => {
@@ -151,15 +140,13 @@ const GetPlayCode = () => {
   };
 
   return (
-    <View style={styles.mainView}>
+    <ScrollView style={styles.mainView}>
       <KeyboardAvoidingView
         style={styles.keyBordView}
         behavior={Platform.OS === 'ios' ? 'padding' : 'height'}>
         <TouchableWithoutFeedback
           onPress={() => {
             Keyboard.dismiss();
-            setOpenCard(false);
-            setOpenState(false);
           }}>
           <View style={styles.mainView}>
             <View style={styles.rupeeRow}>
@@ -191,7 +178,6 @@ const GetPlayCode = () => {
                   }
                 }}
               />
-              {cardError && <Text style={styles.error}>{cardError}</Text>}
               <TouchableOpacity
                 style={styles.submit}
                 onPress={() => {
@@ -200,6 +186,11 @@ const GetPlayCode = () => {
                 <Text style={styles.submitText}>Submit</Text>
               </TouchableOpacity>
             </View>
+            {isShowAds && (
+              <View style={styles.BigbannerAds}>
+                <LargeBannerAds bannerId={bannerAdsId} />
+              </View>
+            )}
           </View>
         </TouchableWithoutFeedback>
       </KeyboardAvoidingView>
@@ -209,7 +200,7 @@ const GetPlayCode = () => {
         msg={'Coupon Will Send On Your\n Email in 24 Hours'}
         onPress={handleContinue}
       />
-    </View>
+    </ScrollView>
   );
 };
 

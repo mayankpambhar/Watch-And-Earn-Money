@@ -17,7 +17,7 @@ export const BannerAds = ({bannerId}) => {
 export const LargeBannerAds = ({bannerId}) => {
   return bannerId ? (
     <BannerAd
-      unitId={'ca-app-pub-3940256099942544/6300978111'}
+      unitId={bannerId}
       size={BannerAdSize.MEDIUM_RECTANGLE}
       requestOptions={{
         requestNonPersonalizedAdsOnly: true,

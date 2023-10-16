@@ -1,15 +1,12 @@
 import {View, Text, Modal, Pressable} from 'react-native';
-import React, {useState} from 'react';
-import {useNavigation} from '@react-navigation/native';
+import React from 'react';
 import {useDialogBoxStyle} from './DialogBoxStyle';
 
 const DialogBox = ({modalVisible, onClose, msg, onPress}) => {
   const styles = useDialogBoxStyle();
-  const navigation = useNavigation();
 
   return (
     <Modal
-      //       animationType="slide"
       animationType="fade"
       transparent={true}
       visible={modalVisible}

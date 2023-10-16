@@ -1,4 +1,4 @@
-import {View, Image, Text, Modal, Pressable} from 'react-native';
+import {View, Image, Text, Pressable} from 'react-native';
 import React, {useEffect, useState} from 'react';
 import {ScratchCard} from 'rn-scratch-card';
 import LottieView from 'lottie-react-native';

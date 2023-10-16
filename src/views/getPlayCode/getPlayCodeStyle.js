@@ -81,6 +81,11 @@ export const useGetPlayCodeStyle = () => {
         alignItems: 'center',
         marginTop: hp(20),
       },
+      BigbannerAds: {
+        justifyContent: 'center',
+        alignSelf: 'center',
+        marginTop: hp(100),
+      },
     });
   }, [hp, wp]);
   return style;
