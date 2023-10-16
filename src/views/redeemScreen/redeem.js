@@ -20,7 +20,6 @@ import LoadingIndecator from '../../components/indecator/indecator';
 
 const RedeemPage = ({navigation}) => {
   const styles = useRedeemStyle();
-  const [user, setUser] = useState(null);
   const [coins, setCoins] = useState(0);
   const [internetModalVisible, setInternetModalVisible] = useState(false);
   const [bannerAdsId, setBannerAdsId] = useState('');
@@ -53,7 +52,6 @@ const RedeemPage = ({navigation}) => {
     setrewardads(RewardedAds);
     RewardedAds.addAdEventListener(RewardedAdEventType.EARNED_REWARD, () => {});
     RewardedAds.load();
-    console.log('useeffect    ' + RewardedAds.loaded);
   }, [rewardAdsId]);
 
   useEffect(() => {
@@ -88,8 +86,6 @@ const RedeemPage = ({navigation}) => {
   useEffect(() => {
     const currentUser = auth().currentUser;
     if (currentUser) {
-      setUser(currentUser);
-
       fetchCoinsData(currentUser.uid);
     }
   }, []);

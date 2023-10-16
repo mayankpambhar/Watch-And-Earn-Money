@@ -3,7 +3,6 @@ import React, {useEffect, useState} from 'react';
 import {useWatchAndEarnStyle} from './WatchVideoScreenStle';
 import auth from '@react-native-firebase/auth';
 import database from '@react-native-firebase/database';
-import {Toster} from '../../components/toster/toster';
 import {RewardedAd, RewardedAdEventType} from 'react-native-google-mobile-ads';
 import NetInfo from '@react-native-community/netinfo';
 import InternetDialog from '../../components/internetDialo/InternetDialog';
@@ -13,7 +12,6 @@ import {BannerAds, LargeBannerAds} from '../../helpers/ads';
 
 const WatchVideoScreen = () => {
   const styles = useWatchAndEarnStyle();
-  const [user, setUser] = useState(null);
   const [coins, setCoins] = useState(0);
   const navigation = useNavigation();
   const [watchAds, setWatchAds] = useState(0);
@@ -54,11 +52,6 @@ const WatchVideoScreen = () => {
     return () => clearInterval(intervalId);
   }, []);
 
-  // useEffect(() => {
-  //   setDisableButton(true);
-  //   startTimer();
-  // }, []);
-
   useEffect(() => {
     const showAdsRef = database().ref('IsAdsShow');
     showAdsRef.on('value', snapshot => {
@@ -79,7 +72,6 @@ const WatchVideoScreen = () => {
     setrewardads(RewardedAds);
     RewardedAds.addAdEventListener(RewardedAdEventType.EARNED_REWARD, () => {});
     RewardedAds.load();
-    console.log('useeffect    ' + RewardedAds.loaded);
   }, [rewardAdsId]);
 
   useEffect(() => {
@@ -116,8 +108,6 @@ const WatchVideoScreen = () => {
   const loadAds = () => {
     rewardads.addAdEventListener(RewardedAdEventType.EARNED_REWARD, () => {});
     rewardads.load();
-    console.log('load again   ' + rewardads.loaded);
-    // showAds();
   };
 
   const showRewardAds = () => {
@@ -153,8 +143,6 @@ const WatchVideoScreen = () => {
 
   useEffect(() => {
     if (currentUser) {
-      setUser(currentUser);
-
       fetchCoinsData(uid);
     }
   }, [currentUser, uid]);

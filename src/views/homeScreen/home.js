@@ -19,7 +19,6 @@ import InternetDialog from '../../components/internetDialo/InternetDialog';
 const HomePage = ({navigation}) => {
   const styles = useHomeStyle();
 
-  const [user, setUser] = useState(null);
   const [coins, setCoins] = useState(0);
   const [isDailyCheck, setIsDailyCheck] = useState(false);
   const [bannerAdsId, setBannerAdsId] = useState('');
@@ -28,7 +27,6 @@ const HomePage = ({navigation}) => {
   const [rewardAdsId, setRewardAdsId] = useState('');
   const [rewardads, setrewardads] = useState();
   const [isOpenMenu, setIsOpenMenu] = useState(false);
-
   const currentUser = auth().currentUser;
   const userId = currentUser?.uid;
 
@@ -95,8 +93,6 @@ const HomePage = ({navigation}) => {
 
   useEffect(() => {
     if (currentUser) {
-      setUser(currentUser);
-
       fetchCoinsData(currentUser.uid);
     }
   }, [currentUser]);
@@ -105,7 +101,6 @@ const HomePage = ({navigation}) => {
     const userRef = database().ref(`Users/${uid}/coins`);
     userRef.on('value', snapshot => {
       const coinsValue = snapshot.val();
-      console.log('coinccccccccccsValue: ', coinsValue);
       setCoins(coinsValue);
     });
   };

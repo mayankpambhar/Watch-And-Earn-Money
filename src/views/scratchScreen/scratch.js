@@ -8,7 +8,6 @@ import {useScratchStyle} from './scratchStyle';
 import {useNavigation} from '@react-navigation/native';
 import DialogBox from '../../components/dialog/DialogBox';
 import {RewardedAd, RewardedAdEventType} from 'react-native-google-mobile-ads';
-import {Toster} from '../../components/toster/toster';
 import InternetDialog from '../../components/internetDialo/InternetDialog';
 import NetInfo from '@react-native-community/netinfo';
 
@@ -17,7 +16,6 @@ const ScratchPage = () => {
   const navigation = useNavigation();
   const [isScratch, setIsScratch] = useState(false);
   const [randomNumber, setRandomNumber] = useState(null);
-  const [user, setUser] = useState(null);
   const [coins, setCoins] = useState(0);
   const [scratch, setScratch] = useState(0);
   const [clamModalVisible, setClamModalVisible] = useState(false);
@@ -46,10 +44,8 @@ const ScratchPage = () => {
     try {
       const state = await NetInfo.fetch();
       if (state.isConnected) {
-        console.log('You are online.');
         setInternetModalVisible(false);
       } else {
-        console.log('You are offline.');
         setInternetModalVisible(true);
       }
     } catch (error) {
@@ -72,7 +68,6 @@ const ScratchPage = () => {
     setrewardads(RewardedAds);
     RewardedAds.addAdEventListener(RewardedAdEventType.EARNED_REWARD, () => {});
     RewardedAds.load();
-    console.log('useeffect    ' + RewardedAds.loaded);
   }, [loadADS, rewardAdsId]);
 
   const showAds = () => {
@@ -87,14 +82,14 @@ const ScratchPage = () => {
       userRef.set(coinsValue);
       setIsScratch(false);
       setClamModalVisible(false);
-    } else loadAds();
+    } else {
+      loadAds();
+    }
   };
 
   const loadAds = () => {
     rewardads.addAdEventListener(RewardedAdEventType.EARNED_REWARD, () => {});
     rewardads.load();
-    console.log('load again   ' + rewardads.loaded);
-    // showAds();
   };
 
   useEffect(() => {
@@ -106,8 +101,6 @@ const ScratchPage = () => {
 
   useEffect(() => {
     if (currentUser) {
-      setUser(currentUser);
-
       fetchCoinsData(uid);
     }
   }, [currentUser, uid]);
@@ -201,8 +194,6 @@ const ScratchPage = () => {
             <Pressable
               onPress={() => {
                 setModalVisible(true);
-                // loadAds();
-                // Toster('Reached Daily Limit For Scratch');
               }}>
               <DialogBox
                 modalVisible={modalVisible}
